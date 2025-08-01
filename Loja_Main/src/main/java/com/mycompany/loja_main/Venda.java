@@ -1,21 +1,29 @@
 package com.mycompany.loja_main;
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Venda {
-    private int codigoCliente;
-    private LocalDate data;
+    private Data dataVenda;
     private int CodProduto;
     private int quantidade;
-    //fazer classe meio de pagamento!!
+    private double valor;
+    private MetodoPagamento metodoPagamento;
 
-    public Venda(int codigoCliente, int CodProduto, int quantidade) {
-        this.codigoCliente = codigoCliente;
+    public Venda(int CodProduto, int quantidade) {
+        Scanner scan = new Scanner(System.in);
         this.CodProduto = CodProduto;
         this.quantidade = quantidade;
-        data = LocalDate.now();
+        System.out.println("Digite a data da venda:");
+        System.out.println("Dia: ");
+        int dia = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Mes: ");
+        int mes= scan.nextInt();
+        scan.nextLine();
+        System.out.println("Ano: ");
+        int ano = scan.nextInt();
+        scan.nextLine();
+        dataVenda = new Data(dia, mes, ano);
     }
-
-    public int getCodigoCliente() {return codigoCliente;}
     public int getCodProduto() {return CodProduto;}
     public int getQuantidade() {return quantidade;}
     

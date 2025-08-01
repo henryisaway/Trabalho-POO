@@ -1,20 +1,30 @@
 package com.mycompany.loja_main;
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Compra {
     private int NumeroNotaFiscal;
     private int codigoFornecedor;
-    private LocalDate data;
+    private Data dataCompra;
     private int codigoProduto;
     private int quantidade;
-    //Fazer classe Meio pagamento!!
     
     public Compra(int NumeroNotaFiscal, int codigoFornecedor, int codigoProduto, int quantidade){
+        Scanner scan = new Scanner(System.in);
         this.NumeroNotaFiscal = NumeroNotaFiscal;
         this.codigoFornecedor = codigoFornecedor;
-        data = LocalDate.now();
         this.codigoProduto = codigoProduto;
         this.quantidade = quantidade;
+        System.out.println("Digite a data da compra:");
+        System.out.println("Dia: ");
+        int dia = scan.nextInt();
+        scan.nextLine();
+        System.out.println("Mes: ");
+        int mes= scan.nextInt();
+        scan.nextLine();
+        System.out.println("Ano: ");
+        int ano = scan.nextInt();
+        scan.nextLine();
+        dataCompra = new Data(dia, mes, ano);
     }
 
     public int getNumeroNotaFiscal() { return NumeroNotaFiscal;}
