@@ -31,4 +31,6 @@ abstract class Arquivo {
 
         return texto.toString();
     }
+    
+    
 }
