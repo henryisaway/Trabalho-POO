@@ -1,8 +1,8 @@
-package com.mycompany.loja_main;
+package main;
 
 import java.util.Scanner;
 
-public class Loja_Main {
+public class App {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

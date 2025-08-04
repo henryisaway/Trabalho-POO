@@ -1,4 +1,5 @@
-package com.mycompany.loja_main;
+package main.service;
+import main.model.Data;
 import java.util.Scanner;
 
 public class MetodoPagamento {

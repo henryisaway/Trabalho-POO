@@ -1,4 +1,4 @@
-package com.mycompany.loja_main;
+package main.model;
 import java.util.Scanner;
 
 public class Compra {
@@ -7,7 +7,7 @@ public class Compra {
     private Data dataCompra;
     private int codigoProduto;
     private int quantidade;
-    
+
     public Compra(int NumeroNotaFiscal, int codigoFornecedor, int codigoProduto, int quantidade){
         Scanner scan = new Scanner(System.in);
         this.NumeroNotaFiscal = NumeroNotaFiscal;
@@ -31,5 +31,5 @@ public class Compra {
     public int getCodigoFornecedor() {return codigoFornecedor;}
     public int getCodigoProduto() {return codigoProduto;}
     public int getQuantidade() {return quantidade;}
-    
+
 }

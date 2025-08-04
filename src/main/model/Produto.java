@@ -1,4 +1,4 @@
-package com.mycompany.loja_main;
+package main.model;
 
 public class Produto {
     private int codigoProduto;
@@ -16,19 +16,19 @@ public class Produto {
         this.qtEstoque = qtEstoque;
         this.valorDeCusto = valorDeCusto;
         this.percentualLucro = percentualLucro;
-        
+
         codigoProduto = proxCod;
         proxCod++;
-        
+
         double porcentagem = (double)percentualLucro / 100;
         valorVenda = valorDeCusto + (valorDeCusto *porcentagem);
     }
 
     public int getCodigoProduto() {return codigoProduto;}
-    
-    
+
+
     public void setDescricao(String descricao) {this.descricao = descricao;}
-    
+
     public void setEstoqueMin(int estoqueMin) {
         this.estoqueMin = estoqueMin;
         if(estoqueMin > qtEstoque);

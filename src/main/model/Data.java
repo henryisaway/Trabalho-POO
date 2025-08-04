@@ -1,4 +1,4 @@
-package com.mycompany.loja_main;
+package main.model;
 
 public class Data {
     private int dia;
@@ -56,7 +56,7 @@ public class Data {
     public int getAno() {
         return ano;
     }
-    
+
     //SET
     public void setDia(int dia) {
         this.dia = dia;

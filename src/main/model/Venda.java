@@ -1,4 +1,6 @@
-package com.mycompany.loja_main;
+package main.model;
+import main.service.MetodoPagamento;
+
 import java.util.Scanner;
 
 public class Venda {
@@ -26,5 +28,5 @@ public class Venda {
     }
     public int getCodProduto() {return CodProduto;}
     public int getQuantidade() {return quantidade;}
-    
+
 }
