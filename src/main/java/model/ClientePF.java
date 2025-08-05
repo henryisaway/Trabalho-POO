@@ -1,4 +1,4 @@
-package main.model;
+package model;
 
 public class ClientePF extends Cliente{ //Pessoa Fisica
     private String cpf;

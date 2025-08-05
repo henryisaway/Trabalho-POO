@@ -1,11 +1,11 @@
-package main.model;
+package model;
 
 public class ClientePJ extends Cliente{//Pesoa Juridica
     private String cnpj;
     private String inscricaoEstadual;
 
-    public ClientePJ(String nome,String endereco, String telefone, String cnpj, String inscricaoEstadual){
-        super(nome,endereco, telefone);
+    public ClientePJ(String nome,String endereco, String telefone, String cnpj, String inscricaoEstadual, Data dataCadastro, boolean criando){
+        super(nome,endereco, telefone, dataCadastro,criando);
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;
     }

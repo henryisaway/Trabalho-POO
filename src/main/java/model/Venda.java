@@ -1,5 +1,4 @@
-package main.model;
-import main.service.MetodoPagamento;
+package model;
 
 public class Venda {
     private Data dataVenda;

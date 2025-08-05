@@ -1,4 +1,4 @@
-package main.service;
+package service;
 
 public class Loja {
 
