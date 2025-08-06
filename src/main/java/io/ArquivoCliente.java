@@ -79,7 +79,7 @@ public class ArquivoCliente extends Arquivo {
         cnpj = cliente.getCNPJ();
         numInscricao = cliente.getInscricaoEstadual();
         //Monta a linha em formato csv,  ja com \n
-        String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
+        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);
     }
