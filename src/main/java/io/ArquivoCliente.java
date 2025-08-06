@@ -13,17 +13,19 @@ public class ArquivoCliente extends Arquivo {
     private final List<ClientePF> listaClientesPF = new ArrayList<ClientePF>();
     private final List<ClientePJ> listaClientesPJ = new ArrayList<ClientePJ>();
 
+    int codigo, numInscricao;
+    String nome, endereco, telefone, cpf, cnpj, tipoCliente;
+    LocalDate dataCadastro;
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
     public ArquivoCliente(File arquivo) {
         super(arquivo);
     }
     
-    public void criaClientes() throws ArquivoException {
+    public void pegaClientes() throws ArquivoException {
         String conteudoArquivo = super.getTextoArquivo();
         String[] linhas = conteudoArquivo.split("\\r?\\n");
         String[] linha;
-        int codigo, numInscricao;
-        String nome, endereco, telefone, cpf, cnpj, tipoCliente;
-        LocalDate dataCadastro;
 
         for(int i=1; i < linhas.length; i++) {
             linha = linhas[i].split(";");
@@ -42,6 +44,32 @@ public class ArquivoCliente extends Arquivo {
                 listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
             }
         }
+    }
+
+    public void criaCliente (ClientePF cliente) throws ArquivoException {
+        codigo = cliente.getCodigoIndentificador();
+        nome = cliente.getNome();
+        endereco = cliente.getEndereco();
+        telefone = cliente.getTelefone();
+        dataCadastro = cliente.getData();
+
+        tipoCliente = "F";
+        cpf = cliente.getCPF();
+        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
+        super.adicionaTextoArquivo(linhaCliente);
+    }
+
+    public void criaCliente (ClientePJ cliente) throws ArquivoException {
+        codigo = cliente.getCodigoIndentificador();
+        nome = cliente.getNome();
+        endereco = cliente.getEndereco();
+        telefone = cliente.getTelefone();
+        dataCadastro = cliente.getData();
+        tipoCliente = "F";
+        cnpj = cliente.getCNPJ();
+        numInscricao = cliente.getInscricaoEstadual();
+        String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
+        super.adicionaTextoArquivo(linhaCliente);
     }
 
     public List<ClientePF> getListaClientePF() { return listaClientesPF; }

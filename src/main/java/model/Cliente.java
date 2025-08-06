@@ -13,7 +13,8 @@ public class Cliente {
         this.endereco = endereco;
         this.telefone = telefone;
         this.dataCadastro = dataCadastro;
-        this.codigo = codigoAtual + 1;
+        codigoAtual += 1;
+        this.codigo = codigoAtual;
     }
 
     public Cliente(String nome,String endereco, String telefone, LocalDate dataCadastro, int codigo){
@@ -22,6 +23,7 @@ public class Cliente {
         this.telefone = telefone;
         this.dataCadastro = dataCadastro;
         this.codigo = codigo;
+        codigoAtual = codigo;
     }
 
     public int getCodigoIndentificador(){return codigo;}

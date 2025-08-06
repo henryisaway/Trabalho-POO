@@ -32,5 +32,13 @@ abstract class Arquivo {
         return texto.toString();
     }
     
-    
+    public void adicionaTextoArquivo(String texto) throws ArquivoException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
+            bw.write(texto);
+        } catch (FileNotFoundException e) {
+            throw  new ArquivoException("Arquivo não encontrado!");
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao lidar com o arquivo!");
+        }
+    }
 }
