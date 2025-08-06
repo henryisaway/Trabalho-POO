@@ -47,9 +47,9 @@ public class App {
         System.out.println("[4] - Cadastro (Clientes, Fornecedores, Produtos)");
         System.out.println("[3] - Registro de vendas");
         System.out.println("[2] - Controle de contas");
-        System.out.println("[1] - Geração de relatórios mensais");
+        System.out.println("[1] - Geração de relatorios mensais");
         System.out.println("[0] - Sair ");
-        System.out.print("Digite uma opcão: ");
+        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuCadastro(){
@@ -57,30 +57,70 @@ public class App {
         System.out.println("[2] - Cadastrar Novo Fornecedor");
         System.out.println("[1] - Cadastrar Novo Produto");
         System.out.println("[0] - Voltar ao Menu Principal");
-        System.out.print("Digite uma opcão: ");
+        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuRegistroVendas(){
         System.out.println("[2] - Registrar Nova Venda");
         System.out.println("[1] - Listar Todas as Vendas");
         System.out.println("[0] - Voltar ao Menu Principal");
-        System.out.print("Digite uma opcão: ");
+        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuControleContas(){
         System.out.println("[2] - Visualizar Contas a Pagar (Fornecedores)");
         System.out.println("[1] - Visualizar Contas a Receber (Clientes)");
         System.out.println("[0] - Voltar ao Menu Principal");
-        System.out.print("Digite uma opcão: ");
+        System.out.print("Digite uma opcao: ");
     }
-
+    
+    public static void menuCadastraCliente(){
+        System.out.println("[5] - Cadastrar Cliente");
+        System.out.println("[4] - Editar Cliente");
+        System.out.println("[3] - Listar Clientes");
+        System.out.println("[2] - Buscar Cliente");
+        System.out.println("[1] - Remover Cliente");
+        System.out.println("[0] - retornar");
+        System.out.print("Digite uma opcao: ");
+    }
+    
+    public static void menuCadastraFornecedor(){
+        System.out.println("[5] - Cadastrar Fornecedor");
+        System.out.println("[4] - Editar Fornecedor");
+        System.out.println("[3] - Listar Fornecedores");
+        System.out.println("[2] - Buscar Fornecedor");
+        System.out.println("[1] - Remover Fornecedor");
+        System.out.println("[0] - retornar");
+        System.out.print("Digite uma opcao: ");
+    }
+    
     public static void gerarRelatorioMensal(){
         
     }
 
     public static void controleContas(){
         int opcao;
-        menuControleContas();
+        boolean flag = true;
+        do{
+            menuControleContas();
+            opcao = sc.nextInt();
+            sc.nextLine();
+            switch(opcao){
+                case 2:
+                    break;
+                case 1:
+                    break;
+                case 0:
+                    System.out.println("retornando ao menu principal");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }
+            
+            
+        }while(flag == true);
         
     }
 
@@ -91,17 +131,28 @@ public class App {
 
     public static void cadastro() throws ArquivoException {
        int opcao;
-       menuCadastro();
-       opcao = sc.nextInt();
-       sc.nextLine();
-       switch (opcao) {
-           case 3:
-               cadastraCliente();
-               break;
-           default:
-               System.out.println("Opção invalida! digite novamente");
-               break;
-       }
+       boolean flag = true;
+       do{
+           menuCadastro();
+           opcao = sc.nextInt();
+           sc.nextLine();
+           switch(opcao){
+                case 3:
+                    break;
+                case 2:
+                    break;
+                case 1:
+                    break;
+                case 0:
+                    System.out.println("retornando ao menu principal");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }
+       
+       }while(flag == true);
     }
 
     public static void cadastraCliente() throws ArquivoException {
