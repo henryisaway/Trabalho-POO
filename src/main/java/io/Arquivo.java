@@ -16,12 +16,12 @@ abstract class Arquivo {
     public String getConteudoArquivo() { return conteudoArquivo;}
 
     public String getTextoArquivo() throws ArquivoException {
-        StringBuilder texto = new StringBuilder();
+        StringBuilder texto = new StringBuilder();//StringBuilder mais usado por ser efeciente com concatenação
 
         try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String linha;
             while((linha = br.readLine()) != null) {
-                texto.append(linha).append("\n");
+                texto.append(linha).append("\n");//Adiciona a linha lida e uma quebra de linha
             }
         } catch (FileNotFoundException e) {
             throw  new ArquivoException("Arquivo não encontrado!");
@@ -29,12 +29,12 @@ abstract class Arquivo {
             throw new ArquivoException("Erro ao lidar com o arquivo!");
         }
 
-        return texto.toString();
+        return texto.toString();//Retorna todo o conteudo do arquivo como uma String
     }
-    
+    //Método que adiciona texto ao final do arquivo (modo append = true)
     public void adicionaTextoArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
-            bw.write(texto);
+            bw.write(texto);//Escreve o texto no final do arquivo
         } catch (FileNotFoundException e) {
             throw  new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
