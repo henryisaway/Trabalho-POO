@@ -29,9 +29,9 @@ abstract class Arquivo {
             throw new ArquivoException("Erro ao lidar com o arquivo!");
         }
 
-        return texto.toString();//Retorna todo o conteudo do arquivo como uma String
+        return texto.toString();//Retorna todos os conteudos do arquivo como uma String
     }
-    //Método que adiciona texto ao final do arquivo (modo append = true)
+    //Métod que adiciona texto ao final do arquivo (modo append = true)
     public void adicionaTextoArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
             bw.write(texto);//Escreve o texto no final do arquivo

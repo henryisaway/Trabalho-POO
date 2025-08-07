@@ -25,7 +25,7 @@ public class ArquivoCliente extends Arquivo {
     
     //Lê o conteudo do arquivo e preenche as listas de ClientePF e Cliente PJ com os dados lidos
     public void pegaClientes() throws ArquivoException {
-        String conteudoArquivo = super.getTextoArquivo(); //Le todo conteudo do arquivo  como texto
+        String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
         String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
         String[] linha;
 
