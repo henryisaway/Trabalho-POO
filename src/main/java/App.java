@@ -94,6 +94,16 @@ public class App {
         System.out.print("Digite uma opcao: ");
     }
     
+    public static void menuCadastraProduto(){
+        System.out.println("[5] - Cadastrar Produto");
+        System.out.println("[4] - Editar Produtos");
+        System.out.println("[3] - Listar Produtos");
+        System.out.println("[2] - Buscar Produtos");
+        System.out.println("[1] - Remover Produtos");
+        System.out.println("[0] - retornar");
+        System.out.print("Digite uma opcao: ");
+    }
+    
     
     
     public static void gerarRelatorioMensal(){
@@ -146,7 +156,7 @@ public class App {
                     opcaoFornecedor();
                     break;
                 case 1:
-                    cadastrarProduto();
+                    opcaoProduto();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -301,7 +311,7 @@ public class App {
     }
     
     public static void cadastraFornecedor()throws ArquivoException{
-        
+        String nomeEmpresa, endereco, telefone, cnpj, pessoaContato;
     }
     
     public static void editarFornecedor() throws ArquivoException{
@@ -322,7 +332,58 @@ public class App {
     
     
     
-    public static void cadastrarProduto() throws ArquivoException{
+    public static void opcaoProduto() throws ArquivoException{
+        int opcao;
+        boolean flag = true;
+        do{
+            menuCadastraProduto();
+            opcao = sc.nextInt();
+            sc.nextLine();
+            switch(opcao){
+                case 5:
+                    cadastraProduto();
+                    break;
+                case 4:
+                    editarProduto();
+                    break;
+                case 3:
+                    listarProdutos();
+                    break;
+                case 2:
+                    buscarProduto();
+                    break;
+                case 1:
+                    removerProduto();
+                    break;
+                case 0:
+                    System.out.println("retornando...");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }   
+        }while(flag == true);
+    }
+    
+    public static void cadastraProduto() throws ArquivoException{
+    
+    }
+    
+    public static void editarProduto() throws ArquivoException{
         
     }
+    
+    public static void listarProdutos() throws ArquivoException{
+        
+    }
+    
+    public static void buscarProduto() throws ArquivoException{
+        
+    }
+    
+    public static void removerProduto() throws ArquivoException{
+        
+    }
+    
 }
