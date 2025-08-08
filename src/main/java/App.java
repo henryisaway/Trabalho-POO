@@ -31,8 +31,10 @@ public class App {
                     cadastro();
                     break;
                 case 5:
+                    edicao();
                     break;
                 case 6:
+                    remocao();
                     break;
                 case 7:
                     busca();
@@ -188,6 +190,66 @@ public class App {
             switch(opcao){
                 case 3:
                     System.out.println(ClienteHandler.buscarCliente());
+                    break;
+                case 2:
+
+                    break;
+                case 1:
+
+                    break;
+                case 0:
+                    System.out.println("retornando ao menu principal");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }
+
+        }while(flag);
+    }
+
+    public static void remocao() throws ArquivoException {
+        int opcao;
+        boolean flag = true;
+        do{
+            System.out.println("Selecione o que deseja remover: ");
+            menuGeral();
+            opcao = sc.nextInt();
+            sc.nextLine();
+            switch(opcao){
+                case 3:
+                    ClienteHandler.removeCliente();
+                    break;
+                case 2:
+
+                    break;
+                case 1:
+
+                    break;
+                case 0:
+                    System.out.println("retornando ao menu principal");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }
+
+        }while(flag);
+    }
+
+    public static void edicao() throws ArquivoException {
+        int opcao;
+        boolean flag = true;
+        do{
+            System.out.println("Selecione o que deseja editar: ");
+            menuGeral();
+            opcao = sc.nextInt();
+            sc.nextLine();
+            switch(opcao){
+                case 3:
+                    ClienteHandler.editaCliente();
                     break;
                 case 2:
 

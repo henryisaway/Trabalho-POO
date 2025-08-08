@@ -2,6 +2,7 @@ package utils;
 
 import io.ArquivoCliente;
 import io.ArquivoException;
+import model.Cliente;
 import model.ClientePF;
 import model.ClientePJ;
 
@@ -93,8 +94,77 @@ public final class ClienteHandler {
 
     public static void removeCliente() throws ArquivoException{
         int id;
+        clientesPF = arquivoCliente.getListaClientePF();
+        clientesPJ = arquivoCliente.getListaClientePJ();
         System.out.print("Digite o id do cliente que deseja remover: ");
         id = sc.nextInt();
         sc.nextLine();
+
+        clientesPF.removeIf(cliente -> cliente.getCodigoIndentificador() == id);
+        clientesPJ.removeIf(cliente -> cliente.getCodigoIndentificador() == id);
+
+        arquivoCliente.removeItem(id);
+        System.out.println("Cliente deletado com sucesso!");
+    }
+
+    public static void editaCliente() throws ArquivoException {
+        int id;
+        clientesPF = arquivoCliente.getListaClientePF();
+        clientesPJ = arquivoCliente.getListaClientePJ();
+        System.out.print("Digite o id do cliente que deseja editar: ");
+        id = sc.nextInt();
+        sc.nextLine();
+        for (ClientePF cliente: clientesPF) {
+            if (cliente.getCodigoIndentificador() == id) {
+                edicaoCliente(cliente);
+                break;
+            }
+        }
+        for (ClientePJ cliente: clientesPJ) {
+            if (cliente.getCodigoIndentificador() == id) {
+                edicaoCliente(cliente);
+                break;
+            }
+        }
+        System.out.println("Cliente editado com sucesso!");
+    }
+
+    public static void edicaoCliente(ClientePF cliente) throws ArquivoException {
+        String entrada;
+        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.print("Nome ["+cliente.getNome()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setNome(entrada);
+        System.out.print("Endereço ["+cliente.getEndereco()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setEndereco(entrada);
+        System.out.print("Número ["+cliente.getTelefone()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setTelefone(entrada);
+        System.out.print("CPF ["+cliente.getCPF()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setCPF(entrada);
+        arquivoCliente.editaCliente(cliente);
+    }
+
+    public static void edicaoCliente(ClientePJ cliente) throws ArquivoException {
+        String entrada;
+        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.print("Nome ["+cliente.getNome()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setNome(entrada);
+        System.out.print("Endereço ["+cliente.getEndereco()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setEndereco(entrada);
+        System.out.print("Número ["+cliente.getTelefone()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setTelefone(entrada);
+        System.out.print("CPF ["+cliente.getCNPJ()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setCNPJ(entrada);
+        System.out.print("Inscrição Estadual ["+cliente.getInscricaoEstadual()+"]: ");
+        entrada = sc.nextLine();
+        if(!entrada.trim().isEmpty()) cliente.setInscricaoEstadual(Integer.parseInt(entrada));
+        arquivoCliente.editaCliente(cliente);
     }
 }

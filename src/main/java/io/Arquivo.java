@@ -41,4 +41,70 @@ abstract class Arquivo {
             throw new ArquivoException("Erro ao lidar com o arquivo!");
         }
     }
+
+    public void reescreveArquivo(String texto) throws ArquivoException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo))) {
+            bw.write(texto);
+        } catch (FileNotFoundException e) {
+            throw  new ArquivoException("Arquivo não encontrado!");
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao lidar com o arquivo!");
+        }
+    }
+
+    public void removeItem(int id) throws ArquivoException {
+        StringBuilder texto = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            String[] linhaConteudo;
+            int codigo;
+
+            linha = br.readLine();
+            texto.append(linha).append("\n");
+
+            while((linha = br.readLine()) != null) {
+                linhaConteudo = linha.split(";");
+                codigo = Integer.parseInt(linhaConteudo[0]);
+                if (codigo != id) {
+                    texto.append(linha).append("\n");
+                }
+            }
+
+            reescreveArquivo(texto.toString());
+        } catch (FileNotFoundException e) {
+            throw  new ArquivoException("Arquivo não encontrado!");
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao lidar com o arquivo!");
+        }
+    }
+
+    public void editaItem(int id, String item) throws ArquivoException{
+        StringBuilder texto = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            String[] linhaConteudo;
+            int codigo;
+
+            linha = br.readLine();
+            texto.append(linha).append("\n");
+
+            while((linha = br.readLine()) != null) {
+                linhaConteudo = linha.split(";");
+                codigo = Integer.parseInt(linhaConteudo[0]);
+                if (codigo == id) {
+                    texto.append(item).append("\n");
+                } else {
+                    texto.append(linha).append("\n");
+                }
+            }
+
+            reescreveArquivo(texto.toString());
+        } catch (FileNotFoundException e) {
+            throw  new ArquivoException("Arquivo não encontrado!");
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao lidar com o arquivo!");
+        }
+    }
 }
