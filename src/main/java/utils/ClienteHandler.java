@@ -89,7 +89,7 @@ public final class ClienteHandler {
             if(cliente.getCodigoIndentificador() == id) { return cliente.infoClientePJ(); }
         }
 
-        return "Usuário não existe";
+        return "Cliente não existe";
     }
 
     public static void removeCliente() throws ArquivoException{
@@ -117,16 +117,16 @@ public final class ClienteHandler {
         for (ClientePF cliente: clientesPF) {
             if (cliente.getCodigoIndentificador() == id) {
                 edicaoCliente(cliente);
-                break;
+                return;
             }
         }
         for (ClientePJ cliente: clientesPJ) {
             if (cliente.getCodigoIndentificador() == id) {
                 edicaoCliente(cliente);
-                break;
+                return;
             }
         }
-        System.out.println("Cliente editado com sucesso!");
+        System.out.println("Cliente não existe!");
     }
 
     public static void edicaoCliente(ClientePF cliente) throws ArquivoException {
@@ -145,6 +145,7 @@ public final class ClienteHandler {
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setCPF(entrada);
         arquivoCliente.editaCliente(cliente);
+        System.out.println("Cliente editado com sucesso!");
     }
 
     public static void edicaoCliente(ClientePJ cliente) throws ArquivoException {
@@ -159,12 +160,13 @@ public final class ClienteHandler {
         System.out.print("Número ["+cliente.getTelefone()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setTelefone(entrada);
-        System.out.print("CPF ["+cliente.getCNPJ()+"]: ");
+        System.out.print("CNPJ ["+cliente.getCNPJ()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setCNPJ(entrada);
         System.out.print("Inscrição Estadual ["+cliente.getInscricaoEstadual()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setInscricaoEstadual(Integer.parseInt(entrada));
         arquivoCliente.editaCliente(cliente);
+        System.out.println("Cliente editado com sucesso!");
     }
 }

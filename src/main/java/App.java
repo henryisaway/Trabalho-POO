@@ -1,5 +1,6 @@
 import utils.ClienteHandler;
 import io.ArquivoException;
+import utils.FornecedorHandler;
 
 import java.util.Scanner;
 
@@ -8,6 +9,7 @@ public class App {
 
     public static void main(String[] args) throws ArquivoException {
         ClienteHandler.carregaClientes();
+        FornecedorHandler.carregaFornecedores();
         int opcao;
 
         do {
@@ -132,7 +134,7 @@ public class App {
                     ClienteHandler.cadastraCliente();
                     break;
                 case 2:
-
+                    FornecedorHandler.cadastraFornecedor();
                     break;
                 case 1:
 
@@ -162,7 +164,7 @@ public class App {
                     ClienteHandler.listarClientes();
                     break;
                 case 2:
-
+                    FornecedorHandler.listarFornecedores();
                     break;
                 case 1:
 
@@ -192,7 +194,7 @@ public class App {
                     System.out.println(ClienteHandler.buscarCliente());
                     break;
                 case 2:
-
+                    System.out.println(FornecedorHandler.buscarFornecedor());
                     break;
                 case 1:
 
@@ -222,7 +224,7 @@ public class App {
                     ClienteHandler.removeCliente();
                     break;
                 case 2:
-
+                    FornecedorHandler.removeFornecedor();
                     break;
                 case 1:
 
@@ -252,7 +254,7 @@ public class App {
                     ClienteHandler.editaCliente();
                     break;
                 case 2:
-
+                    FornecedorHandler.editaFornecedor();
                     break;
                 case 1:
 
