@@ -66,6 +66,7 @@ public class ArquivoCliente extends Arquivo {
         String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);
+        listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
     }
     //Metodo que adicona um novo ClientePJ ao arquivo
     public void criaCliente (ClientePJ cliente) throws ArquivoException {

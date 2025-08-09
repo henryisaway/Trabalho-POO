@@ -3,6 +3,7 @@ import io.ArquivoException;
 import utils.FornecedorHandler;
 
 import java.util.Scanner;
+import utils.ProdutoHandler;
 
 public class App {
     private static final Scanner sc = new Scanner(System.in);
@@ -10,13 +11,15 @@ public class App {
     public static void main(String[] args) throws ArquivoException {
         ClienteHandler.carregaClientes();
         FornecedorHandler.carregaFornecedores();
+        ProdutoHandler.carregaProduto();
         int opcao;
 
         do {
             menuPrincipal();
             opcao = sc.nextInt();
             sc.nextLine();
-            switch(opcao){
+            switch(opcao){8
+                    
                 case 0:
                     System.out.println("Desligando...");
                     break;
@@ -57,8 +60,8 @@ public class App {
         System.out.println("[2] - Controle de contas");
         System.out.println("[3] - Registro de vendas");
         System.out.println("[4] - Cadastro");
-        System.out.println("[5] - Edição");
-        System.out.println("[6] - Remoção");
+        System.out.println("[5] - Edicaoo");
+        System.out.println("[6] - Remocao");
         System.out.println("[7] - Busca");
         System.out.println("[8] - Listagem");
         System.out.print("Digite uma opcao: ");
@@ -137,7 +140,7 @@ public class App {
                     FornecedorHandler.cadastraFornecedor();
                     break;
                 case 1:
-
+                    ProdutoHandler.cadastraProduto();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -167,7 +170,7 @@ public class App {
                     FornecedorHandler.listarFornecedores();
                     break;
                 case 1:
-
+                    ProdutoHandler.listarProdutos();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -197,7 +200,7 @@ public class App {
                     System.out.println(FornecedorHandler.buscarFornecedor());
                     break;
                 case 1:
-
+                    System.out.println(ProdutoHandler.buscarProduto());
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -227,7 +230,7 @@ public class App {
                     FornecedorHandler.removeFornecedor();
                     break;
                 case 1:
-
+                    ProdutoHandler.removeProduto();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -257,7 +260,7 @@ public class App {
                     FornecedorHandler.editaFornecedor();
                     break;
                 case 1:
-
+                    ProdutoHandler.editaProduto();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");

@@ -48,6 +48,7 @@ public class ArquivoFornecedor extends Arquivo {
         String linhaFornecedor = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaFornecedor);
+        listaFornecedor.add(new Fornecedor(nome,endereco,telefone,cnpj,pessoaContato,codigo));
     }
 
     public void editaFornecedor (Fornecedor fornecedor) throws ArquivoException {

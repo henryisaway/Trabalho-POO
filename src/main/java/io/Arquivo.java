@@ -34,13 +34,17 @@ abstract class Arquivo {
     //Métod que adiciona texto ao final do arquivo (modo append = true)
     public void adicionaTextoArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
-            bw.write(texto);//Escreve o texto no final do arquivo
+            bw.write("\n");
+            bw.write(texto); // Escreve o texto no final do arquivo
+            bw.flush();
+            
         } catch (FileNotFoundException e) {
-            throw  new ArquivoException("Arquivo não encontrado!");
+            throw new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro ao lidar com o arquivo!");
         }
     }
+
 
     public void reescreveArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo))) {
@@ -60,24 +64,30 @@ abstract class Arquivo {
             String[] linhaConteudo;
             int codigo;
 
+            // Lê e preserva o cabeçalho
             linha = br.readLine();
-            texto.append(linha).append("\n");
+            if (linha != null) {
+                texto.append(linha).append("\n");
+            }
 
-            while((linha = br.readLine()) != null) {
+            // Lê e filtra as demais linhas
+            while ((linha = br.readLine()) != null) {
                 linhaConteudo = linha.split(";");
                 codigo = Integer.parseInt(linhaConteudo[0]);
                 if (codigo != id) {
                     texto.append(linha).append("\n");
                 }
             }
-
-            reescreveArquivo(texto.toString());
         } catch (FileNotFoundException e) {
-            throw  new ArquivoException("Arquivo não encontrado!");
+            throw new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro ao lidar com o arquivo!");
         }
+
+        // Só reescreve o arquivo se tudo deu certo
+        reescreveArquivo(texto.toString());
     }
+
 
     public void editaItem(int id, String item) throws ArquivoException{
         StringBuilder texto = new StringBuilder();
