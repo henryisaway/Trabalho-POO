@@ -18,7 +18,7 @@ public class App {
             menuPrincipal();
             opcao = sc.nextInt();
             sc.nextLine();
-            switch(opcao){8
+            switch(opcao){
                     
                 case 0:
                     System.out.println("Desligando...");

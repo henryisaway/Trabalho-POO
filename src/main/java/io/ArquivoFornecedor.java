@@ -62,6 +62,12 @@ public class ArquivoFornecedor extends Arquivo {
         //Monta a linha em formato csv,  ja com \n
         String linhaFornecedor = (codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
         super.editaItem(codigo, linhaFornecedor);
+        
+        for(int i = 0; i<listaFornecedor.size(); i++){
+            if(listaFornecedor.get(i).getCodigoIndentificador() == codigo){
+                listaFornecedor.set(i, new Fornecedor(nome,endereco,telefone,cnpj,pessoaContato,codigo));
+            }
+        }
     }
 
     public List<Fornecedor> getListaFornecedor() { return listaFornecedor; }

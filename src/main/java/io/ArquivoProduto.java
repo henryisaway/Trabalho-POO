@@ -46,7 +46,7 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv,  ja com \n
-        String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
+        String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaProduto);
         listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
@@ -63,6 +63,12 @@ public class ArquivoProduto extends Arquivo{
         //Monta a linha em formato csv,  ja com \n
         String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+percentualLucro+";"+valorCusto);
         super.editaItem(codigo, linhaProduto);
+        
+        for(int i = 0; i<listaProdutos.size(); i++){
+            if(listaProdutos.get(i).getCodigoProduto() == codigo){
+                listaProdutos.set(i, new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
+            }
+        }
     }
 
     public List<Produto> getListaProdutos() { return listaProdutos; }

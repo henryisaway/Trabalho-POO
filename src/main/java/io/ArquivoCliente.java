@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import model.Compra;
 
 //Classe responsável por ler e gravar objetos de ClientePF e Cliente PJ em arquivos
 public class ArquivoCliente extends Arquivo {
@@ -66,7 +67,7 @@ public class ArquivoCliente extends Arquivo {
         String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);
-        listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
+        listaClientesPF.add(new ClientePF(nome, endereco, telefone, dataCadastro, cpf, codigo));
     }
     //Metodo que adicona um novo ClientePJ ao arquivo
     public void criaCliente (ClientePJ cliente) throws ArquivoException {
@@ -83,6 +84,7 @@ public class ArquivoCliente extends Arquivo {
         String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);
+        listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
     }
 
     public void editaCliente (ClientePF cliente) throws ArquivoException {
@@ -96,6 +98,12 @@ public class ArquivoCliente extends Arquivo {
         //Monta a linha em formato csv,  ja com \n
         String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
         super.editaItem(codigo, linhaCliente);
+        
+        for(int i = 0; i<listaClientesPF.size(); i++){
+            if(listaClientesPF.get(i).getCodigoIndentificador() == codigo){
+                listaClientesPF.set(i, new ClientePF(nome, endereco, telefone, dataCadastro, cpf, codigo));
+            }
+        }
     }
 
     public void editaCliente (ClientePJ cliente) throws ArquivoException {
@@ -111,6 +119,12 @@ public class ArquivoCliente extends Arquivo {
         String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
         //Adiciona a linha ao final do arquivo
         super.editaItem(codigo, linhaCliente);
+        
+        for(int i = 0; i<listaClientesPJ.size(); i++){
+            if(listaClientesPJ.get(i).getCodigoIndentificador() == codigo){
+                listaClientesPJ.set(i, new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
+            }
+        }
     }
  
     public List<ClientePF> getListaClientePF() { return listaClientesPF; }
