@@ -25,13 +25,12 @@ public class ArquivoProduto extends Arquivo{
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
             linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
-            //Extrai dados comuns tanto pra 'F' e 'J'
             codigo = Integer.parseInt(linha[0]);
             descricao = linha[1];
             estoqueMin =Integer.parseInt(linha[2]);
             qtProduto = Integer.parseInt(linha[3]);
-            valorCusto =Double.parseDouble(linha[4]);
-            percentualLucro =Integer.parseInt(linha[5]); 
+            percentualLucro =Integer.parseInt(linha[4]); 
+            valorCusto =Double.parseDouble(linha[5]);
 
             listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto,percentualLucro));
         }

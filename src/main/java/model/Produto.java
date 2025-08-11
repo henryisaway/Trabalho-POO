@@ -74,7 +74,7 @@ public class Produto {
 
     public void setQtEstoque(int qtEstoque) {
         this.qtEstoque = qtEstoque;
-        System.out.println("Tem menos produto em estoque do que a quantia minima!");
+        if(this.qtEstoque < this.estoqueMin)System.out.println("Tem menos produto em estoque do que a quantia minima!");
     }
 
     public void setValorDeCusto(double valorDeCusto) {

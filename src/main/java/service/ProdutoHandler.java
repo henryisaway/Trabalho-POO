@@ -1,4 +1,4 @@
-package utils;
+package service;
 
 import io.ArquivoException;
 import io.ArquivoProduto;
@@ -36,8 +36,10 @@ public class ProdutoHandler {
         valorCusto = sc.nextDouble();
         sc.nextLine();
         
-        
-        arquivoProduto.criaProduto(new Produto(descricao, estoqueMin, qtProdutos,valorCusto, percentualLucro));
+        Produto novoProduto = new Produto(descricao, estoqueMin, qtProdutos,valorCusto, percentualLucro);
+        boolean cadastrou = CompraHandler.cadastraCompra(novoProduto.getCodigoProduto(), qtProdutos);
+        if(cadastrou  == false)return;
+        arquivoProduto.criaProduto(novoProduto);
     }
 
     public static void listarProdutos() throws ArquivoException{
@@ -49,20 +51,14 @@ public class ProdutoHandler {
         }
     }
 
-    public static String buscarProduto() throws ArquivoException{
-        int codigo;
-
-        System.out.print("Digite o codigo do produto: ");
-        codigo = sc.nextInt();
-        sc.nextLine();
-
+    public static String buscarProduto(int codigo) throws ArquivoException{
         produtos = arquivoProduto.getListaProdutos();
 
         for (Produto produto:produtos) {
             if(produto.getCodigoProduto() == codigo) { return produto.infoProduto(); }
         }
 
-        return "Produto não existe";
+        return "Produto não esta em estoque!";
     }
 
     public static void removeProduto() throws ArquivoException{
@@ -116,7 +112,14 @@ public class ProdutoHandler {
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()){
             qtProdutos = Integer.parseInt(entrada);
-            produto.setQtEstoque(qtProdutos);
+            if(qtProdutos > produto.getQtEstoque()){
+                CompraHandler.editaCompra(produto.getCodigoProduto());
+                produto.setQtEstoque(qtProdutos);
+                System.out.println("Compra de novos produtos registrada...");
+            }
+            else{
+                produto.setQtEstoque(qtProdutos);
+            }
         }
         
         System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
@@ -137,5 +140,35 @@ public class ProdutoHandler {
 
         arquivoProduto.editaProduto(produto);
         System.out.println("Produto editado com sucesso!");
+    }
+    
+    public static int vendeuProduto(int codigoProduto,int quantidade)throws ArquivoException{
+        produtos = arquivoProduto.getListaProdutos();
+        for(Produto produto: produtos){
+            if(produto.getCodigoProduto() == codigoProduto){
+                if(produto.getQtEstoque() <quantidade && produto.getQtEstoque() > 0){
+                    do{
+                    System.out.print("Temos apenas "+produto.getQtEstoque()+ " deste produto em estoque!\n"
+                            + "Deseja comprar uma quantia menor...\n"
+                            + "1 - Sim\n"
+                            + "2 - Nao\n"
+                            + "Digite sua opcao: ");
+                    int opcao = sc.nextInt();
+                    sc.nextLine();
+                    if(opcao == 1){
+                        System.out.print("Digite a nova quantia: ");
+                        quantidade = sc.nextInt();
+                        if(quantidade < produto.getQtEstoque()){
+                            produto.setQtEstoque(produto.getQtEstoque() - quantidade);
+                            arquivoProduto.editaProduto(produto);
+                            break;
+                        }
+                    }
+                    else return 0;
+                    }while(true);
+                }
+            }
+        }
+        return quantidade;
     }
 }

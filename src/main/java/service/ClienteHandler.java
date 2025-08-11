@@ -1,4 +1,4 @@
-package utils;
+package service;
 
 import io.ArquivoCliente;
 import io.ArquivoException;
@@ -71,12 +71,7 @@ public final class ClienteHandler {
         }
     }
 
-    public static String buscarCliente() throws ArquivoException{
-        int id;
-
-        System.out.print("Digite o id do cliente: ");
-        id = sc.nextInt();
-        sc.nextLine();
+    public static String buscarCliente(int id) throws ArquivoException{
 
         clientesPF = arquivoCliente.getListaClientePF();
         clientesPJ = arquivoCliente.getListaClientePJ();
@@ -89,7 +84,7 @@ public final class ClienteHandler {
             if(cliente.getCodigoIndentificador() == id) { return cliente.infoClientePJ(); }
         }
 
-        return "Cliente não existe";
+        return "Cliente não cadastrado!";
     }
 
     public static void removeCliente() throws ArquivoException{

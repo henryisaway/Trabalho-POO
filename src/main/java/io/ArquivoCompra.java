@@ -50,11 +50,7 @@ public class ArquivoCompra extends Arquivo{
         listaCompras.add(new Compra(numeroNotaFiscal, codigoFornecedor,codigoProduto, quantidade, dataCompra));
     }
 
-    public void editaProduto (Compra compra) throws ArquivoException {
-        numeroNotaFiscal = compra.getNumeroNotaFiscal();
-        codigoFornecedor = compra.getCodigoFornecedor();
-        dataCompra = compra.getDataCompra();
-        codigoProduto = compra.getCodigoProduto();
+    public void editaCompra (Compra compra) throws ArquivoException {
         quantidade = compra.getQuantidade();
 
         //Monta a linha em formato csv,  ja com \n

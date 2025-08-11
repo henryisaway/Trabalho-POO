@@ -1,4 +1,4 @@
-package utils;
+package service;
 
 import io.ArquivoException;
 import io.ArquivoFornecedor;
@@ -43,20 +43,14 @@ public final class FornecedorHandler {
         }
     }
 
-    public static String buscarFornecedor() throws ArquivoException{
-        int id;
-
-        System.out.print("Digite o id do fornecedor: ");
-        id = sc.nextInt();
-        sc.nextLine();
-
+    public static String buscarFornecedor(int id) throws ArquivoException{
         fornecedores = arquivoFornecedor.getListaFornecedor();
 
         for (Fornecedor fornecedor:fornecedores) {
             if(fornecedor.getCodigoIndentificador() == id) { return fornecedor.infoFornecedor(); }
         }
 
-        return "Fornecedor não existe";
+        return "Fornecedor não cadastrado!";
     }
 
     public static void removeFornecedor() throws ArquivoException{

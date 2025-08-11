@@ -1,9 +1,11 @@
-import utils.ClienteHandler;
+import service.ClienteHandler;
 import io.ArquivoException;
-import utils.FornecedorHandler;
+import service.FornecedorHandler;
 
 import java.util.Scanner;
-import utils.ProdutoHandler;
+import service.CompraHandler;
+import service.ProdutoHandler;
+import service.VendaHandler;
 
 public class App {
     private static final Scanner sc = new Scanner(System.in);
@@ -12,8 +14,10 @@ public class App {
         ClienteHandler.carregaClientes();
         FornecedorHandler.carregaFornecedores();
         ProdutoHandler.carregaProduto();
+        CompraHandler.carregaCompra();
+        VendaHandler.carregaVendas();
+        
         int opcao;
-
         do {
             menuPrincipal();
             opcao = sc.nextInt();
@@ -60,7 +64,7 @@ public class App {
         System.out.println("[2] - Controle de contas");
         System.out.println("[3] - Registro de vendas");
         System.out.println("[4] - Cadastro");
-        System.out.println("[5] - Edicaoo");
+        System.out.println("[5] - Edicao");
         System.out.println("[6] - Remocao");
         System.out.println("[7] - Busca");
         System.out.println("[8] - Listagem");
@@ -93,7 +97,7 @@ public class App {
         
     }
 
-    public static void controleContas(){
+    public static void controleContas() throws ArquivoException{
         int opcao;
         boolean flag = true;
         do{
@@ -102,8 +106,37 @@ public class App {
             sc.nextLine();
             switch(opcao){
                 case 2:
+                    CompraHandler.listarContasPagar();
                     break;
                 case 1:
+                    VendaHandler.listarVendasFiado();
+                    break;
+                case 0:
+                    System.out.println("retornando ao menu principal");
+                    flag = false;
+                    break;
+                default:
+                    System.out.println("Opção invalida! digite novamente");
+                    break;
+            }
+
+        }while(flag);
+        
+    }
+
+    public static void registroVendas()throws ArquivoException{
+        int opcao;
+        boolean flag = true;
+        do{
+            menuRegistroVendas();
+            opcao = sc.nextInt();
+            sc.nextLine();
+            switch(opcao){
+                case 2:
+                    VendaHandler.cadastraVenda();
+                    break;
+                case 1:
+                    VendaHandler.listarVendas();
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
@@ -116,12 +149,6 @@ public class App {
             
             
         }while(flag);
-        
-    }
-
-    public static void registroVendas(){
-        int opcao;
-        menuRegistroVendas();
     }
     
     public static void cadastro() throws ArquivoException {
@@ -194,13 +221,22 @@ public class App {
             sc.nextLine();
             switch(opcao){
                 case 3:
-                    System.out.println(ClienteHandler.buscarCliente());
+                    System.out.print("Digite o id do cliente: ");
+                    int id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(ClienteHandler.buscarCliente(id ));
                     break;
                 case 2:
-                    System.out.println(FornecedorHandler.buscarFornecedor());
+                    System.out.print("Digite o id do fornecedor que deseja Buscar: ");
+                    id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(FornecedorHandler.buscarFornecedor(id));
                     break;
                 case 1:
-                    System.out.println(ProdutoHandler.buscarProduto());
+                    System.out.print("Digite o codigo do produto que deseja Buscar: ");
+                    id = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(ProdutoHandler.buscarProduto(id));
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");
