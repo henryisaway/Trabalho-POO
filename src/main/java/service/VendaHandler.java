@@ -80,6 +80,8 @@ public class VendaHandler {
         for (Venda venda:vendas) {
             System.out.println(venda.infoVenda());
         }
+        vendas.clear();
+        arquivoVenda.clearListaVendas();
     }
     
     public static void listarVendasFiado() throws ArquivoException{
@@ -89,6 +91,9 @@ public class VendaHandler {
         for (Venda venda:vendas) {
             System.out.println(venda.infoVenda());
         }
+        vendas.clear();
+        arquivoVenda.clearListaVendas();
+        
     }
 }
 

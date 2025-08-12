@@ -18,7 +18,7 @@ public class CompraHandler {
     }
 
     public static boolean cadastraCompra(int codigoProdutoP,int quantidadeP) throws ArquivoException {
-        int numeroNotaFiscal, codigoFornecedor, codigoProduto, quantidade;
+        int numeroNotaFiscal, codigoFornecedor;
         LocalDate dataCompra;
         
         System.out.print("Digite o numero da nota fiscal: ");
@@ -34,28 +34,20 @@ public class CompraHandler {
         }
         
         dataCompra = LocalDate.now();
-        codigoProduto = codigoProdutoP;
-        quantidade = quantidadeP;
         
-        arquivoCompra.criaCompra(new Compra(numeroNotaFiscal, codigoFornecedor,codigoProduto, quantidade, dataCompra));
+        arquivoCompra.criaCompra(new Compra(numeroNotaFiscal, codigoFornecedor,codigoProdutoP, quantidadeP, dataCompra));
         return true;
     }
 
     public static void listarContasPagar() throws ArquivoException{
+        
         compras = arquivoCompra.getListaCompras();
 
         System.out.println("Compras: ");
         for (Compra compra:compras) {
             System.out.println(compra.infoCompra());
         }
-    }
-
-    public static void editaCompra(int codigoProduto) throws ArquivoException {
-        compras = arquivoCompra.getListaCompras();
-        for (Compra compra: compras) {
-            if (compra.getCodigoProduto() == codigoProduto) {
-                arquivoCompra.editaCompra(compra);
-            }
-        }
+        compras.clear();
+        arquivoCompra.clearListaCompras();
     }
 }

@@ -47,25 +47,14 @@ public class ArquivoCompra extends Arquivo{
         String linhaCompra = ("\n"+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCompra);
-        listaCompras.add(new Compra(numeroNotaFiscal, codigoFornecedor,codigoProduto, quantidade, dataCompra));
     }
+    
+    public List<Compra> getListaCompras() throws ArquivoException{ 
+        pegaCompras();
+        return listaCompras; }
 
-    public void editaCompra (Compra compra) throws ArquivoException {
-        quantidade = compra.getQuantidade();
-
-        //Monta a linha em formato csv,  ja com \n
-        String linhaCompra = ("\n"+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
-        super.adicionaTextoArquivo(linhaCompra);
-        
-        //Substituir no List, caso ele queria listar, em codigo!
-        for(int i = 0; i<listaCompras.size(); i++){
-            if(listaCompras.get(i).getNumeroNotaFiscal() == numeroNotaFiscal){
-                listaCompras.set(i, new Compra(numeroNotaFiscal, codigoFornecedor,codigoProduto, quantidade, dataCompra));
-            }
-        }
-    }
-
-    public List<Compra> getListaCompras() { return listaCompras; }
-
+    public void clearListaCompras(){
+        listaCompras.clear();
+    } 
 }
 

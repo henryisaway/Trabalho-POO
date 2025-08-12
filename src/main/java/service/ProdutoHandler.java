@@ -111,14 +111,19 @@ public class ProdutoHandler {
         System.out.print("Quantida de Produtos em estoque -> ["+produto.getQtEstoque()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()){
-            qtProdutos = Integer.parseInt(entrada);
+            qtProdutos = Integer.parseInt(entrada);//qtprodutos = quantiaAntiga + novaFrota
             if(qtProdutos > produto.getQtEstoque()){
-                CompraHandler.editaCompra(produto.getCodigoProduto());
+                boolean editado = CompraHandler.cadastraCompra(produto.getCodigoProduto(),qtProdutos - produto.getQtEstoque());//(qtProdutos - produto.getQtEstoque) -> Vai nos dizer a nova quantia comprada...
+                if(editado == false){
+                    System.out.println("Retornando ao menu principal!");
+                    return;
+                }
                 produto.setQtEstoque(qtProdutos);
                 System.out.println("Compra de novos produtos registrada...");
             }
             else{
                 produto.setQtEstoque(qtProdutos);
+                System.out.println("Produtos retirados do estoque com sucesso!");
             }
         }
         

@@ -11,11 +11,17 @@ public class App {
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws ArquivoException {
+        
+        //Para melhor Funcionamento do codigo, estas tres listas sao carregadas em inicio de codigo!!
         ClienteHandler.carregaClientes();
         FornecedorHandler.carregaFornecedores();
         ProdutoHandler.carregaProduto();
+        
+        //Ja essas Duas, serão carregadas sob demanda...
+        /*
         CompraHandler.carregaCompra();
         VendaHandler.carregaVendas();
+        */
         
         int opcao;
         do {

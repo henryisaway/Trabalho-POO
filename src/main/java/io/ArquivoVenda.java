@@ -38,9 +38,28 @@ public class ArquivoVenda extends Arquivo{
             modoPagamento = MetodoPagamento.fromCodigo(linha[4]);
 
             listaVendas.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
-            if(codigoCliente != 0)listaVendasFiado.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
         }
     }
+    public void pegaVendasFiado() throws ArquivoException {
+        String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
+        String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
+        String[] linha;
+
+        //Começa do indice 1 para pular o cabeçalho
+        for(int i=1; i < linhas.length; i++) {
+            linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
+            
+            if(!linha[0].equals(' ')){
+                codigoCliente = Integer.parseInt(linha[0]);
+                dataVenda = LocalDate.parse(linha[1]);
+                codigoProduto =Integer.parseInt(linha[2]);
+                quantidade = Integer.parseInt(linha[3]);
+                modoPagamento = MetodoPagamento.fromCodigo(linha[4]);
+                listaVendasFiado.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
+            }//Caso seja fiado...
+        }
+    }
+    
 
     public void criaVenda (Venda venda) throws ArquivoException {
         
@@ -62,6 +81,15 @@ public class ArquivoVenda extends Arquivo{
         if(codigoCliente != 0)listaVendasFiado.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
     }
 
-    public List<Venda> getListaVendas() { return listaVendas; }
-    public List<Venda> getListaVendasFiado() { return listaVendasFiado; }
+    public List<Venda> getListaVendas() throws ArquivoException { 
+        pegaVendas();
+        return listaVendas; }
+    public List<Venda> getListaVendasFiado() throws ArquivoException{ 
+        pegaVendasFiado();
+        return listaVendasFiado; }
+    
+    public void clearListaVendas(){
+        listaVendas.clear();
+        listaVendasFiado.clear();
+    }
 }
