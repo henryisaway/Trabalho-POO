@@ -44,7 +44,7 @@ public class ArquivoCompra extends Arquivo{
         quantidade = compra.getQuantidade();
 
         //Monta a linha em formato csv,  ja com \n
-        String linhaCompra = ("\n"+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
+        String linhaCompra = (+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCompra);
     }

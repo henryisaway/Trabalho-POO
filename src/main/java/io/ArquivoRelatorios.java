@@ -1,4 +1,16 @@
 package io;
+
+import java.io.*;
+import java.nio.file.*;
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import model.*;
+
 /*
 Objetivo:
 Todos os relatórios serão criados aqui e organizados em pastas,
@@ -19,7 +31,49 @@ Relatórios gerados:
 
 OBS: Tudo isso ficara dentro da pasta report...
 */
-public class ArquivoRelatorios {
-    
-    
+
+
+//Não vai ser possivel e herdar a classe Arquivo, pois ela e feita pra arquiovos Fixos...
+public class ArquivoRelatorios{
+
+    public void CriaRelatorioAhPagar(AhPagar ahPagar, boolean primeiraLinha) throws ArquivoException{
+        if(primeiraLinha){
+            escreverLinhaRelatorio("apagar.csv","nome do fornecedor;cnpj do fornecedor;pessoa de contato;telefone;valor total a pagar",true); 
+        }
+        else{
+            String nomeFornecedor = ahPagar.getNomeFornecedor();
+            String cnpj = ahPagar.getCnpj();
+            String pessoaDeContato = ahPagar.getPessoaContato();
+            String telefone = ahPagar.getTelefone();
+            double valorTotalPagar = ahPagar.getValorTotal();
+            
+            //Monta a linha em formato csv,  ja com \n
+            String linhaAhPagar = (nomeFornecedor+";"+cnpj+";"+pessoaDeContato+";"+telefone+";"+valorTotalPagar);
+            //Adiciona a linha ao final do arquivo
+            escreverLinhaRelatorio("apagar.csv",linhaAhPagar, false);
+        }
+    }
+
+    private void escreverLinhaRelatorio(String nomeArquivo, String linha, boolean sobrescrever)throws ArquivoException{
+        
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("report", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve(nomeArquivo);
+        
+        // Define opções de escrita com base no parâmetro
+        OpenOption[] opcoes;
+
+        if (sobrescrever) {
+            opcoes = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+        } else {
+            opcoes = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.APPEND};
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, opcoes)) {
+            writer.write(linha);
+            writer.newLine();
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no relatório: " + e.getMessage());
+        }
+    }
+
 }

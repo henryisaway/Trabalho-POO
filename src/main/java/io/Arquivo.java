@@ -34,6 +34,7 @@ abstract class Arquivo {
     //Métod que adiciona texto ao final do arquivo (modo append = true)
     public void adicionaTextoArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
+            bw.newLine();
             bw.write(texto); // Escreve o texto no final do arquivo
             bw.flush();
             

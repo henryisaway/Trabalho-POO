@@ -72,9 +72,9 @@ public class ArquivoVenda extends Arquivo{
         //Monta a linha em formato csv,  ja com \n
         String linhaVenda;
         if(codigoCliente == 0){ 
-            linhaVenda = ("\n ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
+            linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
         }
-        else linhaVenda = ("\n"+codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
+        else linhaVenda = (codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaVenda);
         listaVendas.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));

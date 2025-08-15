@@ -29,8 +29,8 @@ public class ArquivoProduto extends Arquivo{
             descricao = linha[1];
             estoqueMin =Integer.parseInt(linha[2]);
             qtProduto = Integer.parseInt(linha[3]);
-            percentualLucro =Integer.parseInt(linha[4]); 
-            valorCusto =Double.parseDouble(linha[5]);
+            valorCusto =Double.parseDouble(linha[4]);
+            percentualLucro =Integer.parseInt(linha[5]); 
 
             listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto,percentualLucro));
         }
@@ -45,7 +45,7 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv,  ja com \n
-        String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
+        String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaProduto);
         listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
