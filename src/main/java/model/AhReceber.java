@@ -46,7 +46,7 @@ public class AhReceber {
         return valorAhReceber;
     }
     
-    public String infoAhReceber(){
+    public String toString(){
         return nomeDoCliente+";"+tipoCliente+";"+CPF_CNPJ+";"+telefone+";"+dataCadastro+";"+valorAhReceber;
     }
     

@@ -51,7 +51,8 @@ public class ArquivoCompra extends Arquivo{
     
     public List<Compra> getListaCompras() throws ArquivoException{ 
         pegaCompras();
-        return listaCompras; }
+        return listaCompras;
+    }
 
     public void clearListaCompras(){
         listaCompras.clear();

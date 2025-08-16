@@ -6,6 +6,8 @@ import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import java.util.List;
+
 import model.*;
 
 /*
@@ -30,50 +32,13 @@ OBS: Tudo isso ficara dentro da pasta report...
 */
 
 
-//Não vai ser possivel e herdar a classe Arquivo, pois ela e feita pra arquiovos Fixos...
+//Não vai ser possivel herdar a classe Arquivo, pois ela e feita pra arquivos Fixos...
 public class ArquivoRelatorios{
 
-    public void CriaRelatorioAhPagar(AhPagar ahPagar, boolean primeiraLinha) throws ArquivoException{
-        if(primeiraLinha){
-            escreverLinhaRelatorio("apagar.csv","nome do fornecedor;cnpj do fornecedor;pessoa de contato;telefone;valor total a pagar",true); 
-        }
-        else{
-            String nomeFornecedor = ahPagar.getNomeFornecedor();
-            String cnpj = ahPagar.getCnpj();
-            String pessoaDeContato = ahPagar.getPessoaContato();
-            String telefone = ahPagar.getTelefone();
-            double valorTotalPagar = ahPagar.getValorTotal();
-            
-            //Monta a linha em formato csv,  ja com \n
-            String linhaAhPagar = (nomeFornecedor+";"+cnpj+";"+pessoaDeContato+";"+telefone+";"+valorTotalPagar);
-            //Adiciona a linha ao final do arquivo
-            escreverLinhaRelatorio("apagar.csv",linhaAhPagar, false);
-        }
-    }
-    
-    public void CriaRelatorioAhReceber(AhReceber ahReceber, boolean primeiraLinha) throws ArquivoException{
-        if(primeiraLinha){
-            escreverLinhaRelatorio("areceber.csv","nome do cliente;tipo de cliente;cpf/cnpj do cliente;telefone;data de cadastro;valor toal a receber",true); 
-        }
-        else{
-            String nomeDoCliente = ahReceber.getNomeDoCliente();
-            String tipoCliente = ahReceber.getTipoCliente();
-            String CPF_CNPJ = ahReceber.getCPF_CNPJ();
-            String telefone = ahReceber.getTelefone();
-            LocalDate dataCadastro = ahReceber.getDataCadastro();
-            double valorAhReceber = ahReceber.getValorAhReceber();
-            
-            //Monta a linha em formato csv
-            String linhaAhPagar = (nomeDoCliente+";"+tipoCliente+";"+CPF_CNPJ+";"+telefone+";"+dataCadastro+";"+valorAhReceber);
-            //Adiciona a linha ao final do arquivo
-            escreverLinhaRelatorio("areceber.csv",linhaAhPagar, false);
-        }
-    }
-    
-    private void escreverLinhaRelatorio(String nomeArquivo, String linha, boolean sobrescrever) throws ArquivoException {
+    public void CriaRelatorioAhPagar(List<AhPagar> listaDividas) throws ArquivoException {
         String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
-        Path pastaRelatorio = Paths.get("Relatorios da Padaria", nomePasta);
-        Path caminhoArquivo = pastaRelatorio.resolve(nomeArquivo);
+        Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve("apagar.csv");
 
         if (!Files.exists(pastaRelatorio)) {
             try {
@@ -83,13 +48,50 @@ public class ArquivoRelatorios{
             }
         }
 
-        OpenOption[] opcoes = sobrescrever
-            ? new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING}
-            : new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.APPEND};
+        OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
 
-        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, opcoes)) {
-            writer.write(linha);
-            writer.newLine();
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
+
+            // Escrever cabeçalho do csv
+            writer.write("nome do fornecedor;cnpj do fornecedor;pessoa de contato;telefone;valor total a pagar\n");
+
+            // Escrever dívidas
+            for (AhPagar divida : listaDividas) {
+                writer.write(divida.toString());
+                writer.newLine();
+            }
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao escrever no relatório.");
+        }
+    }
+
+    public void CriaRelatorioAhReceber(List<AhReceber> listaDevedores) throws ArquivoException {
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve("areceber.csv");
+
+        if (!Files.exists(pastaRelatorio)) {
+            try {
+                Files.createDirectories(pastaRelatorio);
+            } catch (IOException e) {
+                throw new ArquivoException("Erro ao criar pasta de relatório.");
+            }
+        }
+
+        OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
+
+            // Escrever cabeçalho do csv
+            writer.write("nome do cliente;tipo de cliente;cpf/cnpj do cliente;telefone;data de cadastro;valor total a receber\n");
+
+            // Escrever devedores
+            for (AhReceber devedor : listaDevedores) {
+                writer.write(devedor.toString());
+                writer.newLine();
+            }
+
         } catch (IOException e) {
             throw new ArquivoException("Erro ao escrever no relatório.");
         }

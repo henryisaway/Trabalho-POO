@@ -36,6 +36,7 @@ public class RelatoriosHandler {
 
         List<AhPagar> listaFinal = new ArrayList<>();
 
+        // Verifica se o fornecedor já está na lista; Neste caso a nova dívida é somada ao invés de sobreescrita
         if (!listaDevendoFornecedores.isEmpty()) {
             AhPagar acumulador = listaDevendoFornecedores.get(0);
 
@@ -54,10 +55,7 @@ public class RelatoriosHandler {
 
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioAhPagar(null, true);//Cria a primeira Linha do csv...
-        for (AhPagar item : listaFinal) {
-            arquivoRelatorio.CriaRelatorioAhPagar(item, false);
-        }
+        arquivoRelatorio.CriaRelatorioAhPagar(listaFinal);    
     }
     
     public static void GerarTotalReceberCliente(List<Venda> listaVendas) throws ArquivoException {
@@ -130,10 +128,7 @@ public class RelatoriosHandler {
 
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioAhReceber(null, true);//Cria a primeira Linha do csv...
-        for (AhReceber item : listaFinal) {
-            arquivoRelatorio.CriaRelatorioAhReceber(item, false);
-        }
+        arquivoRelatorio.CriaRelatorioAhReceber(listaFinal);
     }
     
 }

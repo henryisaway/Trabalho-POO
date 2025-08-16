@@ -18,7 +18,7 @@ public class AhPagar {
         this.valorTotal += valor;
     }
 
-    public String infoAhPagar() {
+    public String toString() {
         return nomeFornecedor + ";" + cnpj + ";" + pessoaContato + ";" + telefone + ";" + String.format("%.2f", valorTotal);
     }
 
