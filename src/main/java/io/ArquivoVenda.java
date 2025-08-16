@@ -27,6 +27,7 @@ public class ArquivoVenda extends Arquivo{
 
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
+            System.out.println("1");
             linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
             
             if(linha[0].equals(' '))codigoCliente = 0;//Caso nao seja fiado...
@@ -35,12 +36,13 @@ public class ArquivoVenda extends Arquivo{
             dataVenda = LocalDate.parse(linha[1]);
             codigoProduto =Integer.parseInt(linha[2]);
             quantidade = Integer.parseInt(linha[3]);
+            System.out.println(linha[4]);
             modoPagamento = MetodoPagamento.fromCodigo(linha[4]);
 
             listaVendas.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
         }
     }
-    public void pegaVendasFiado() throws ArquivoException {
+    public  void pegaVendasFiado() throws ArquivoException {
         String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
         String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
         String[] linha;
@@ -72,13 +74,11 @@ public class ArquivoVenda extends Arquivo{
         //Monta a linha em formato csv
         String linhaVenda;
         if(codigoCliente == 0){ 
-            linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
+            linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
         }
-        else linhaVenda = (codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);
+        else linhaVenda = (codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaVenda);
-        listaVendas.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
-        if(codigoCliente != 0)listaVendasFiado.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
     }
 
     public List<Venda> getListaVendas() throws ArquivoException { 

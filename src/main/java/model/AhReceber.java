@@ -17,7 +17,11 @@ public class AhReceber {
         this.dataCadastro = dataCadastro;
         this.valorAhReceber = valorAhReceber;
     }
-
+    
+    public void somarValor(double valor) {
+        this.valorAhReceber += valor;
+    }
+    
     public String getNomeDoCliente() {
         return nomeDoCliente;
     }

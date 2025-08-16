@@ -6,7 +6,6 @@ public class Venda {
     private LocalDate dataVenda;
     private int CodProduto;
     private int quantidade;
-    private double valor;
     private MetodoPagamento metodoPagamento;
 
     public Venda(int CodProduto, int quantidade, LocalDate dataVenda, MetodoPagamento metodoPagamento, int codigoCliente) {
@@ -34,10 +33,6 @@ public class Venda {
         return quantidade;
     }
 
-    public double getValor() {
-        return valor;
-    }
-
     public MetodoPagamento getMetodoPagamento() {
         return metodoPagamento;
     }
@@ -48,10 +43,6 @@ public class Venda {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public void setValor(double valor) {
-        this.valor = valor;
     }
 
     public void setMetodoPagamento(MetodoPagamento metodoPagamento) {
@@ -65,17 +56,17 @@ public class Venda {
     public String infoVenda() {
         if(codigoCliente == 0){
             return "Codigo do cliente: ... |Data da venda:" + dataVenda + " |Codigo do produto: " + CodProduto + " |Quantidade: " + quantidade +
-                " |valor: " + valor + " |Metodo de pagamento: " + metodoPagamento;
+                " |Metodo de pagamento: " + metodoPagamento;
         }
         else{
             return "Codigo do cliente:" + codigoCliente + " |Data da venda:" + dataVenda + " |Codigo do produto: " + CodProduto + " |Quantidade: " + quantidade +
-                " |valor: " + valor + " |Metodo de pagamento: " + metodoPagamento;
+                "|Metodo de pagamento: " + metodoPagamento;
         }
     }
     
     public String infoVendaFiado() {
         return "Codigo do cliente:" + codigoCliente + " |Data da venda:" + dataVenda + " |Codigo do produto: " + CodProduto + " |Quantidade: " + quantidade +
-                " |valor: " + valor + " |Metodo de pagamento: " + metodoPagamento;
+                "|Metodo de pagamento: " + metodoPagamento;
     }
     
 

@@ -59,39 +59,67 @@ public class RelatoriosHandler {
             arquivoRelatorio.CriaRelatorioAhPagar(item, false);
         }
     }
+    
     public static void GerarTotalReceberCliente(List<Venda> listaVendas) throws ArquivoException {
-        
+        ClientePF cf = null;
+        ClientePJ cj = null;
+        AhReceber ahReceber;
+        String tipoCliente;
         List<AhReceber> listaClientesDevedores = new ArrayList<>();
 
         for (Venda V : listaVendas) {
             Cliente cliente = ClienteHandler.buscarCliente(V.getCodigoCliente());
+            if(cliente instanceof ClientePF){
+                cf = (ClientePF) cliente;
+                tipoCliente = "F";
+            }
+            else{
+                cj = (ClientePJ) cliente;
+                tipoCliente = "J";
+            }
+            
+            
             Produto produto = ProdutoHandler.buscarProduto(V.getCodProduto());
 
-            int quantidade = compra.getQuantidade();
-            double valorTotalAhPagar = quantidade * produto.getValorDeCusto();
+            int quantidade = V.getQuantidade();
+            double valorDevendo = quantidade * produto.getValorVenda();
 
-            AhPagar ahPagar = new AhPagar(
-                fornecedor.getNomeEmpresa(),
-                fornecedor.getCNPJ(),
-                fornecedor.getPessoaContato(),
-                fornecedor.getTelefone(),
-                valorTotalAhPagar
-            );
-            listaDevendoFornecedores.add(ahPagar);
+            if(tipoCliente.equals("F")){
+                ahReceber  = new AhReceber(
+                    cf.getNome(),
+                    tipoCliente,
+                    cf.getCPF(),
+                    cf.getTelefone(),
+                    cf.getData(),
+                    valorDevendo  
+                );
+                listaClientesDevedores.add(ahReceber);
+            }
+            else{
+                ahReceber  = new AhReceber(
+                    cj.getNome(),
+                    tipoCliente,
+                    cj.getCNPJ(),
+                    cj.getTelefone(),
+                    cj.getData(),
+                    valorDevendo  
+                );
+                listaClientesDevedores.add(ahReceber);
+            }
         }
 
-        Collections.sort(listaDevendoFornecedores, Comparator.comparing(AhPagar::getNomeFornecedor));
+        Collections.sort(listaClientesDevedores, Comparator.comparing(AhReceber::getNomeDoCliente));
 
-        List<AhPagar> listaFinal = new ArrayList<>();
+        List<AhReceber> listaFinal = new ArrayList<>();
 
-        if (!listaDevendoFornecedores.isEmpty()) {
-            AhPagar acumulador = listaDevendoFornecedores.get(0);
+        if (!listaClientesDevedores.isEmpty()) {
+            AhReceber acumulador = listaClientesDevedores.get(0);
 
-            for (int i = 1; i < listaDevendoFornecedores.size(); i++) {
-                AhPagar atual = listaDevendoFornecedores.get(i);
+            for (int i = 1; i < listaClientesDevedores.size(); i++) {
+                AhReceber atual = listaClientesDevedores.get(i);
 
-                if (acumulador.getNomeFornecedor().equals(atual.getNomeFornecedor())) {
-                    acumulador.somarValor(atual.getValorTotal());
+                if (acumulador.getNomeDoCliente().equals(atual.getNomeDoCliente())) {
+                    acumulador.somarValor(atual.getValorAhReceber());
                 } else {
                     listaFinal.add(acumulador);
                     acumulador = atual;
@@ -102,9 +130,9 @@ public class RelatoriosHandler {
 
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioAhPagar(null, true);//Cria a primeira Linha do csv...
-        for (AhPagar item : listaFinal) {
-            arquivoRelatorio.CriaRelatorioAhPagar(item, false);
+        arquivoRelatorio.CriaRelatorioAhReceber(null, true);//Cria a primeira Linha do csv...
+        for (AhReceber item : listaFinal) {
+            arquivoRelatorio.CriaRelatorioAhReceber(item, false);
         }
     }
     

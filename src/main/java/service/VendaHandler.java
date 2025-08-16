@@ -67,7 +67,7 @@ public class VendaHandler {
             sc.nextLine();
             Cliente buscaCliente = ClienteHandler.buscarCliente(codigoCliente);
             if(buscaCliente == null){
-                System.out.println("cadastre antes de vender fiado!");
+                System.out.println("Cadastre o cliente antes de vender fiado!");
                 return;
             }
             arquivoVenda.criaVenda(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));

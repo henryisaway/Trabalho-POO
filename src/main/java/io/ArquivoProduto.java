@@ -60,7 +60,8 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv,  ja com \n
-        String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+percentualLucro+";"+valorCusto);
+        System.out.println("qt - "+qtProduto);
+        String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         super.editaItem(codigo, linhaProduto);
         
         for(int i = 0; i<listaProdutos.size(); i++){

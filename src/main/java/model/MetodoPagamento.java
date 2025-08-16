@@ -10,7 +10,6 @@ public enum MetodoPagamento {
     FIADO("F");
 
     private String codigo;
-    private static Scanner sc = new Scanner(System.in);
     MetodoPagamento(String codigo) {
         this.codigo = codigo;
     }

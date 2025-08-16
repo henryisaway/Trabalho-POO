@@ -150,8 +150,13 @@ public class ProdutoHandler {
     public static int vendeuProduto(int codigoProduto,int quantidade)throws ArquivoException{
         produtos = arquivoProduto.getListaProdutos();
         for(Produto produto: produtos){
+
             if(produto.getCodigoProduto() == codigoProduto){
-                if(produto.getQtEstoque() <quantidade && produto.getQtEstoque() > 0){
+                if(produto.getQtEstoque() == 0){
+                    System.out.println("Não temos esse produto em estoque!");
+                    return 0;
+                }
+                else if(produto.getQtEstoque() <quantidade && produto.getQtEstoque() > 0){
                     do{
                     System.out.print("Temos apenas "+produto.getQtEstoque()+ " deste produto em estoque!\n"
                             + "Deseja comprar uma quantia menor...\n"
@@ -169,8 +174,12 @@ public class ProdutoHandler {
                             break;
                         }
                     }
-                    else return 0;
                     }while(true);
+                }
+                else{
+                    produto.setQtEstoque(produto.getQtEstoque() - quantidade);
+                    arquivoProduto.editaProduto(produto);
+                    break;
                 }
             }
         }
