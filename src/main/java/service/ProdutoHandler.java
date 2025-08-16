@@ -51,14 +51,14 @@ public class ProdutoHandler {
         }
     }
 
-    public static String buscarProduto(int codigo) throws ArquivoException{
+    public static Produto buscarProduto(int codigo) throws ArquivoException{
         produtos = arquivoProduto.getListaProdutos();
 
         for (Produto produto:produtos) {
-            if(produto.getCodigoProduto() == codigo) { return produto.infoProduto(); }
+            if(produto.getCodigoProduto() == codigo) { return produto;}
         }
 
-        return "Produto não esta em estoque!";
+        return null;
     }
 
     public static void removeProduto() throws ArquivoException{

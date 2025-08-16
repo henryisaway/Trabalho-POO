@@ -14,6 +14,10 @@ public class AhPagar {
         this.telefone = telefone;
         this.valorTotal = valorTotal;
     }
+    public void somarValor(double valor) {
+        this.valorTotal += valor;
+    }
+
     public String infoAhPagar() {
         return nomeFornecedor + ";" + cnpj + ";" + pessoaContato + ";" + telefone + ";" + String.format("%.2f", valorTotal);
     }

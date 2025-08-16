@@ -44,7 +44,7 @@ public class ArquivoProduto extends Arquivo{
         percentualLucro = produto.getPercentualLucro();
         valorCusto = produto.getValorDeCusto();
 
-        //Monta a linha em formato csv,  ja com \n
+        //Monta a linha em formato csv
         String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaProduto);

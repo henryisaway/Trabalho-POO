@@ -3,9 +3,6 @@ package io;
 import java.io.*;
 import java.nio.file.*;
 
-
-import java.util.ArrayList;
-import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -53,27 +50,48 @@ public class ArquivoRelatorios{
             escreverLinhaRelatorio("apagar.csv",linhaAhPagar, false);
         }
     }
-
-    private void escreverLinhaRelatorio(String nomeArquivo, String linha, boolean sobrescrever)throws ArquivoException{
-        
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
-        Path pastaRelatorio = Paths.get("report", nomePasta);
-        Path caminhoArquivo = pastaRelatorio.resolve(nomeArquivo);
-        
-        // Define opções de escrita com base no parâmetro
-        OpenOption[] opcoes;
-
-        if (sobrescrever) {
-            opcoes = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
-        } else {
-            opcoes = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.APPEND};
+    
+    public void CriaRelatorioAhReceber(AhReceber ahReceber, boolean primeiraLinha) throws ArquivoException{
+        if(primeiraLinha){
+            escreverLinhaRelatorio("areceber.csv","nome do cliente;tipo de cliente;cpf/cnpj do cliente;telefone;data de cadastro;valor toal a receber",true); 
         }
+        else{
+            String nomeDoCliente = ahReceber.getNomeDoCliente();
+            String tipoCliente = ahReceber.getTipoCliente();
+            String CPF_CNPJ = ahReceber.getCPF_CNPJ();
+            String telefone = ahReceber.getTelefone();
+            LocalDate dataCadastro = ahReceber.getDataCadastro();
+            double valorAhReceber = ahReceber.getValorAhReceber();
+            
+            //Monta a linha em formato csv
+            String linhaAhPagar = (nomeDoCliente+";"+tipoCliente+";"+CPF_CNPJ+";"+telefone+";"+dataCadastro+";"+valorAhReceber);
+            //Adiciona a linha ao final do arquivo
+            escreverLinhaRelatorio("areceber.csv",linhaAhPagar, false);
+        }
+    }
+    
+    private void escreverLinhaRelatorio(String nomeArquivo, String linha, boolean sobrescrever) throws ArquivoException {
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("Relatorios da Padaria", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve(nomeArquivo);
+
+        if (!Files.exists(pastaRelatorio)) {
+            try {
+                Files.createDirectories(pastaRelatorio);
+            } catch (IOException e) {
+                throw new ArquivoException("Erro ao criar pasta de relatório.");
+            }
+        }
+
+        OpenOption[] opcoes = sobrescrever
+            ? new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING}
+            : new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.APPEND};
+
         try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, opcoes)) {
             writer.write(linha);
             writer.newLine();
         } catch (IOException e) {
-            System.err.println("Erro ao escrever no relatório: " + e.getMessage());
+            throw new ArquivoException("Erro ao escrever no relatório.");
         }
     }
-
 }

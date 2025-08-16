@@ -63,7 +63,7 @@ public class ArquivoCliente extends Arquivo {
 
         tipoCliente = "F";
         cpf = cliente.getCPF();
-        //Monta a linha em formato csv,  ja com \n
+        //Monta a linha em formato csv
         String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);
@@ -80,7 +80,7 @@ public class ArquivoCliente extends Arquivo {
         tipoCliente = "J";
         cnpj = cliente.getCNPJ();
         numInscricao = cliente.getInscricaoEstadual();
-        //Monta a linha em formato csv,  ja com \n
+        //Monta a linha em formato csv
         String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
         //Adiciona a linha ao final do arquivo
         super.adicionaTextoArquivo(linhaCliente);

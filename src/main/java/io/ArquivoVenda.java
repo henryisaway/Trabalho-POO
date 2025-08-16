@@ -69,7 +69,7 @@ public class ArquivoVenda extends Arquivo{
         quantidade = venda.getQuantidade();
         modoPagamento = venda.getMetodoPagamento();
 
-        //Monta a linha em formato csv,  ja com \n
+        //Monta a linha em formato csv
         String linhaVenda;
         if(codigoCliente == 0){ 
             linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento);

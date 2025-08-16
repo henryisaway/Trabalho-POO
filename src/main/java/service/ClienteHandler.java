@@ -71,20 +71,20 @@ public final class ClienteHandler {
         }
     }
 
-    public static String buscarCliente(int id) throws ArquivoException{
+    public static Cliente buscarCliente(int id) throws ArquivoException{
 
         clientesPF = arquivoCliente.getListaClientePF();
         clientesPJ = arquivoCliente.getListaClientePJ();
 
         for (ClientePF cliente:clientesPF) {
-            if(cliente.getCodigoIndentificador() == id) { return cliente.infoClientPF(); }
+            if(cliente.getCodigoIndentificador() == id) { return cliente; }
         }
 
         for (ClientePJ cliente:clientesPJ) {
-            if(cliente.getCodigoIndentificador() == id) { return cliente.infoClientePJ(); }
+            if(cliente.getCodigoIndentificador() == id) { return cliente; }
         }
 
-        return "Cliente não cadastrado!";
+        return null;
     }
 
     public static void removeCliente() throws ArquivoException{

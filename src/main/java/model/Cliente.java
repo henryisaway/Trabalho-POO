@@ -36,4 +36,8 @@ public class Cliente {
     public void setEndereco(String endereco){ this.endereco = endereco;}
     public void setTelefone(String telefone) { this.telefone = telefone; }
     public void setDataCadastro(LocalDate dataCadastro) { this.dataCadastro = dataCadastro; }
+    
+    public String infoCliente(){
+        return "Codigo Identificador: "+getCodigoIndentificador()+"|Nome: "+getNome()+" |Endereco: "+getEndereco()+" |Telefone: "+getTelefone();
+    }
 }

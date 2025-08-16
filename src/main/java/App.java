@@ -1,11 +1,11 @@
-import service.ClienteHandler;
 import io.ArquivoException;
-import service.FornecedorHandler;
 
 import java.util.Scanner;
-import service.CompraHandler;
-import service.ProdutoHandler;
-import service.VendaHandler;
+import java.util.List;
+
+import service.*;
+
+import model.*;
 
 public class App {
     private static final Scanner sc = new Scanner(System.in);
@@ -99,7 +99,20 @@ public class App {
         System.out.print("Digite uma opcao: ");
     }
 
-    public static void gerarRelatorioMensal(){
+    public static void gerarRelatorioMensal()throws ArquivoException{
+        
+        List<Compra> compras = CompraHandler.getCompras();
+        RelatoriosHandler.GerarTotalPagarFornecedor(compras);
+        
+        List<Venda> vendas = VendaHandler.getVendasFiado();
+        RelatoriosHandler.GerarTotalReceberCliente(vendas);
+        
+        
+        
+        
+        System.out.println("\n\n-----------------------------------------------");
+        System.out.println("| Armazenado na pasta *Relatorios da Padaria* |");
+        System.out.println("-----------------------------------------------\n\n");
         
     }
 
@@ -230,19 +243,31 @@ public class App {
                     System.out.print("Digite o id do cliente: ");
                     int id = sc.nextInt();
                     sc.nextLine();
-                    System.out.println(ClienteHandler.buscarCliente(id ));
+                    Cliente buscaCliente = ClienteHandler.buscarCliente(id);
+                    if(buscaCliente == null){
+                        System.out.println("Cleinte nao cadastrado!");
+                    }
+                    else System.out.println(buscaCliente.infoCliente());
                     break;
                 case 2:
                     System.out.print("Digite o id do fornecedor que deseja Buscar: ");
                     id = sc.nextInt();
                     sc.nextLine();
-                    System.out.println(FornecedorHandler.buscarFornecedor(id));
+                    Fornecedor buscaFornecedor = FornecedorHandler.buscarFornecedor(id);
+                    if(buscaFornecedor == null){
+                        System.out.println("Fornecedor nao cadastrado!");
+                    }
+                    else System.out.println(buscaFornecedor.infoFornecedor());
                     break;
                 case 1:
                     System.out.print("Digite o codigo do produto que deseja Buscar: ");
                     id = sc.nextInt();
                     sc.nextLine();
-                    System.out.println(ProdutoHandler.buscarProduto(id));
+                    Produto buscaProduto = ProdutoHandler.buscarProduto(id);
+                    if(buscaProduto == null){
+                        System.out.println("Produto nao esta em estoque!");
+                    }
+                    else System.out.println(buscaProduto.infoProduto());
                     break;
                 case 0:
                     System.out.println("retornando ao menu principal");

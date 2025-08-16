@@ -1,47 +1,110 @@
 package service;
 
-import java.io.*;
-import java.nio.file.*;
-
-
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import model.*;
 import io.*;
+import java.util.Collections;
+import java.util.Comparator;
+
 
 public class RelatoriosHandler {
-    public void GerarTotalPagarFornecedor() throws ArquivoException{
-        //Criando primeira Linha do csv
-        try {
-        // Data atual formatada como "2025_08"
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
-
-        // Caminho completo: report/2025_08
-        Path pastaRelatorio = Paths.get("report", nomePasta);
-        Files.createDirectories(pastaRelatorio);
-
-        // Caminho do arquivo dentro da pasta
-        Path caminhoArquivo = pastaRelatorio.resolve("apagar.csv");
-
-        // Escreve o cabeçalho
+    
+    public static void GerarTotalPagarFornecedor(List<Compra> listaCompras) throws ArquivoException {
         
-        } catch (IOException e) {
-        System.err.println("Erro ao criar relatório: " + e.getMessage());
-        }
-        
-        ArquivoCompra arquivoCompra = new ArquivoCompra(new File("registro_compras.csv"));
-        
-        //Pega uma Lista de dados
-        arquivoCompra.pegaCompras();
-        List<Compra> listaCompras = arquivoCompra.getListaCompras();  
         List<AhPagar> listaDevendoFornecedores = new ArrayList<>();
+
+        for (Compra compra : listaCompras) {
+            Fornecedor fornecedor = FornecedorHandler.buscarFornecedor(compra.getCodigoFornecedor());
+            Produto produto = ProdutoHandler.buscarProduto(compra.getCodigoProduto());
+
+            int quantidade = compra.getQuantidade();
+            double valorTotalAhPagar = quantidade * produto.getValorDeCusto();
+
+            AhPagar ahPagar = new AhPagar(
+                fornecedor.getNomeEmpresa(),
+                fornecedor.getCNPJ(),
+                fornecedor.getPessoaContato(),
+                fornecedor.getTelefone(),
+                valorTotalAhPagar
+            );
+            listaDevendoFornecedores.add(ahPagar);
+        }
+
+        Collections.sort(listaDevendoFornecedores, Comparator.comparing(AhPagar::getNomeFornecedor));
+
+        List<AhPagar> listaFinal = new ArrayList<>();
+
+        if (!listaDevendoFornecedores.isEmpty()) {
+            AhPagar acumulador = listaDevendoFornecedores.get(0);
+
+            for (int i = 1; i < listaDevendoFornecedores.size(); i++) {
+                AhPagar atual = listaDevendoFornecedores.get(i);
+
+                if (acumulador.getNomeFornecedor().equals(atual.getNomeFornecedor())) {
+                    acumulador.somarValor(atual.getValorTotal());
+                } else {
+                    listaFinal.add(acumulador);
+                    acumulador = atual;
+                }
+            }
+            listaFinal.add(acumulador);
+        }
+
+        // Escreve no arquivo CSV
+        ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
+        arquivoRelatorio.CriaRelatorioAhPagar(null, true);//Cria a primeira Linha do csv...
+        for (AhPagar item : listaFinal) {
+            arquivoRelatorio.CriaRelatorioAhPagar(item, false);
+        }
+    }
+    public static void GerarTotalReceberCliente(List<Venda> listaVendas) throws ArquivoException {
         
-        for(int i = 0; i<listaCompras.size(); i++){
-            int codigoFornecedor = listaCompras.get(i).getCodigoFornecedor();
-            //Terminar... 
+        List<AhReceber> listaClientesDevedores = new ArrayList<>();
+
+        for (Venda V : listaVendas) {
+            Cliente cliente = ClienteHandler.buscarCliente(V.getCodigoCliente());
+            Produto produto = ProdutoHandler.buscarProduto(V.getCodProduto());
+
+            int quantidade = compra.getQuantidade();
+            double valorTotalAhPagar = quantidade * produto.getValorDeCusto();
+
+            AhPagar ahPagar = new AhPagar(
+                fornecedor.getNomeEmpresa(),
+                fornecedor.getCNPJ(),
+                fornecedor.getPessoaContato(),
+                fornecedor.getTelefone(),
+                valorTotalAhPagar
+            );
+            listaDevendoFornecedores.add(ahPagar);
+        }
+
+        Collections.sort(listaDevendoFornecedores, Comparator.comparing(AhPagar::getNomeFornecedor));
+
+        List<AhPagar> listaFinal = new ArrayList<>();
+
+        if (!listaDevendoFornecedores.isEmpty()) {
+            AhPagar acumulador = listaDevendoFornecedores.get(0);
+
+            for (int i = 1; i < listaDevendoFornecedores.size(); i++) {
+                AhPagar atual = listaDevendoFornecedores.get(i);
+
+                if (acumulador.getNomeFornecedor().equals(atual.getNomeFornecedor())) {
+                    acumulador.somarValor(atual.getValorTotal());
+                } else {
+                    listaFinal.add(acumulador);
+                    acumulador = atual;
+                }
+            }
+            listaFinal.add(acumulador);
+        }
+
+        // Escreve no arquivo CSV
+        ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
+        arquivoRelatorio.CriaRelatorioAhPagar(null, true);//Cria a primeira Linha do csv...
+        for (AhPagar item : listaFinal) {
+            arquivoRelatorio.CriaRelatorioAhPagar(item, false);
         }
     }
     

@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import model.Compra;
+import model.Fornecedor;
 import java.time.LocalDate;
 
 public class CompraHandler {
@@ -27,8 +28,8 @@ public class CompraHandler {
         System.out.print("Digite o codigo do Fornecedor: ");
         codigoFornecedor = sc.nextInt();
         sc.nextLine();
-        String buscaFornecedor = FornecedorHandler.buscarFornecedor(codigoFornecedor);
-        if(buscaFornecedor.equals("Fornecedor não cadastrado!")){
+        Fornecedor buscaFornecedor = FornecedorHandler.buscarFornecedor(codigoFornecedor);
+        if(buscaFornecedor == null){
             System.out.println("Cadastre este fornecedor primeiro!");
             return false;
         }
@@ -50,4 +51,10 @@ public class CompraHandler {
         compras.clear();
         arquivoCompra.clearListaCompras();
     }
+
+    public static List<Compra> getCompras() throws ArquivoException{
+        return arquivoCompra.getListaCompras();
+    }
+    
+    
 }

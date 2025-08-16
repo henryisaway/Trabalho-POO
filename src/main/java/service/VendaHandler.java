@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 import model.MetodoPagamento;
 import model.Venda;
+import model.Produto;
+import model.Cliente;
 
 public class VendaHandler {
     private static final Scanner sc = new Scanner(System.in);
@@ -27,8 +29,8 @@ public class VendaHandler {
         System.out.print("Digite o codigo do produto vendido: ");
         codigoProduto = sc.nextInt();
         sc.nextLine();
-        String buscaProduto = ProdutoHandler.buscarProduto(codigoProduto);
-        if(buscaProduto.equals("Produto não esta em estoque!")){
+        Produto buscaProduto = ProdutoHandler.buscarProduto(codigoProduto);
+        if(buscaProduto == null){
             System.out.println("Codigo de produto nao existente no estoque!");
             return;
         }
@@ -63,8 +65,8 @@ public class VendaHandler {
             System.out.print("Digite o Codigo do Cliente: ");
             codigoCliente = sc.nextInt();
             sc.nextLine();
-            String buscaCliente = ClienteHandler.buscarCliente(codigoCliente);
-            if(buscaCliente.equals("Cliente não cadastrado!")){
+            Cliente buscaCliente = ClienteHandler.buscarCliente(codigoCliente);
+            if(buscaCliente == null){
                 System.out.println("cadastre antes de vender fiado!");
                 return;
             }
@@ -94,6 +96,14 @@ public class VendaHandler {
         vendas.clear();
         arquivoVenda.clearListaVendas();
         
+    }
+    
+    public static List<Venda> getVendas() throws ArquivoException{
+        return arquivoVenda.getListaVendas();
+    }
+    
+    public static List<Venda> getVendasFiado()throws ArquivoException{
+        return arquivoVenda.getListaVendasFiado();
     }
 }
 

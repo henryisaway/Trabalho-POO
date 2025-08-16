@@ -43,14 +43,14 @@ public final class FornecedorHandler {
         }
     }
 
-    public static String buscarFornecedor(int id) throws ArquivoException{
+    public static Fornecedor buscarFornecedor(int id) throws ArquivoException{
         fornecedores = arquivoFornecedor.getListaFornecedor();
 
         for (Fornecedor fornecedor:fornecedores) {
-            if(fornecedor.getCodigoIndentificador() == id) { return fornecedor.infoFornecedor(); }
+            if(fornecedor.getCodigoIndentificador() == id) { return fornecedor; }
         }
 
-        return "Fornecedor não cadastrado!";
+        return null;
     }
 
     public static void removeFornecedor() throws ArquivoException{
