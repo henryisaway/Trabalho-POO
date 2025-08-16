@@ -72,7 +72,7 @@ public class VendaHandler {
             }
             arquivoVenda.criaVenda(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));
         }
-        else arquivoVenda.criaVenda(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, 0));//CodigoCliente = 0, pois não foi fiado!!
+        else arquivoVenda.criaVenda(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, 0)); //CodigoCliente = 0, pois não foi fiado!!
     }
 
     public static void listarVendas() throws ArquivoException{

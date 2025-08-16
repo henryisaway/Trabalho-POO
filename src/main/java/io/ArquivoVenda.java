@@ -21,22 +21,28 @@ public class ArquivoVenda extends Arquivo{
     }
     
     public void pegaVendas() throws ArquivoException {
-        String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
-        String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
+        String conteudoArquivo = super.getTextoArquivo();   //Le todos conteudos do arquivo como texto
+        String[] linhas = conteudoArquivo.split("\\r?\\n"); //Separa conteudo em linhas
         String[] linha;
 
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
-            System.out.println("1");
-            linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
+
+            // Henrique: Não sei o porquê desse println, alguém deve ter colocado como debug
+            // System.out.println("1");
+
+            linha = linhas[i].split(";");    // Divide a linha em campos, separados por ';'
             
-            if(linha[0].equals(' '))codigoCliente = 0;//Caso nao seja fiado...
+            if(linha[0].equals(" ")) codigoCliente = 0;  // Caso nao seja fiado...
             else codigoCliente = Integer.parseInt(linha[0]);
             
             dataVenda = LocalDate.parse(linha[1]);
             codigoProduto =Integer.parseInt(linha[2]);
             quantidade = Integer.parseInt(linha[3]);
-            System.out.println(linha[4]);
+            
+            // Henrique: Não sei o porquê desse println, alguém deve ter colocado como debug
+            // System.out.println(linha[4]);
+
             modoPagamento = MetodoPagamento.fromCodigo(linha[4]);
 
             listaVendas.add(new Venda(codigoProduto,quantidade, dataVenda, modoPagamento, codigoCliente));

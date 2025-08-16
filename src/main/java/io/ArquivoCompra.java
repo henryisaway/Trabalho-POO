@@ -12,15 +12,13 @@ public class ArquivoCompra extends Arquivo{
     int numeroNotaFiscal, quantidade, codigoFornecedor, codigoProduto;
     LocalDate dataCompra;
     
-    
-    
     public ArquivoCompra(File arquivo) {
         super(arquivo);
     }
     
     public void pegaCompras() throws ArquivoException {
-        String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
-        String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
+        String conteudoArquivo = super.getTextoArquivo();   //Lê todos conteudos do arquivo como texto
+        String[] linhas = conteudoArquivo.split("\\r?\\n"); //Separa conteudo em linhas
         String[] linha;
 
         //Começa do indice 1 para pular o cabeçalho
