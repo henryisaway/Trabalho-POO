@@ -19,6 +19,15 @@ public class RelatoriosHandler {
             Fornecedor fornecedor = FornecedorHandler.buscarFornecedor(compra.getCodigoFornecedor());
             Produto produto = ProdutoHandler.buscarProduto(compra.getCodigoProduto());
 
+            if (produto == null) {
+                System.out.println("[AVISO] Compra registrada para produto inexistente (código: " + compra.getCodigoProduto() + "). Ignorando.");
+                continue;
+            }
+            if (fornecedor == null) {
+                System.out.println("[AVISO] Compra registrada para fornecedor inexistente (código: " + compra.getCodigoFornecedor() + "). Ignorando.");
+                continue;
+            }
+
             int quantidade = compra.getQuantidade();
             double valorTotalAhPagar = quantidade * produto.getValorDeCusto();
 
@@ -67,6 +76,17 @@ public class RelatoriosHandler {
 
         for (Venda V : listaVendas) {
             Cliente cliente = ClienteHandler.buscarCliente(V.getCodigoCliente());
+            Produto produto = ProdutoHandler.buscarProduto(V.getCodProduto());
+
+            if (produto == null) {
+                System.out.println("[AVISO] Venda registrada para produto inexistente (código: " + V.getCodProduto() + "). Ignorando.");
+                continue;
+            }
+            if (cliente == null) {
+                System.out.println("[AVISO] Venda registrada para cliente inexistente (código: " + V.getCodigoCliente() + "). Ignorando.");
+                continue;
+            }
+
             if(cliente instanceof ClientePF){
                 cf = (ClientePF) cliente;
                 tipoCliente = "F";
@@ -77,8 +97,6 @@ public class RelatoriosHandler {
             }
             
             
-            Produto produto = ProdutoHandler.buscarProduto(V.getCodProduto());
-
             int quantidade = V.getQuantidade();
             double valorDevendo = quantidade * produto.getValorVenda();
 
@@ -129,6 +147,21 @@ public class RelatoriosHandler {
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
         arquivoRelatorio.CriaRelatorioAhReceber(listaFinal);
+    }
+
+    public static void GerarRelatorioProdutos(List<Produto> produtos) throws ArquivoException {
+        // Cria um comparador para ordenar os produtos.
+        // Critério primário: lucro, em ordem decrescente.
+        // Critério secundário (desempate): código do produto, em ordem crescente.
+        Comparator<Produto> comparador = Comparator.comparingDouble(Produto::getLucro).reversed()
+                .thenComparingInt(Produto::getCodigoProduto);
+
+        // Ordena a lista de produtos usando o comparador.
+        produtos.sort(comparador);
+
+        // Escreve a lista ordenada no arquivo CSV.
+        ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
+        arquivoRelatorio.CriaRelatorioProdutos(produtos);
     }
     
 }
