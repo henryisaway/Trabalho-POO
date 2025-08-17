@@ -55,6 +55,8 @@ public class CompraHandler {
     public static List<Compra> getCompras() throws ArquivoException{
         return arquivoCompra.getListaCompras();
     }
-    
+    public static void reniciaArquivo()throws ArquivoException{
+        arquivoCompra.reniciaComprasMes();
+    }
     
 }

@@ -83,13 +83,20 @@ public class ArquivoVenda extends Arquivo{
         //Monta a linha em formato csv
         String linhaVenda;
         if(codigoCliente == 0){ 
-            linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
+            linhaVenda = ("\n ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
         }
-        else linhaVenda = (codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
+        else linhaVenda = ("\n"+codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaVenda);
+        super.adicionaTextoArquivo(linhaVenda,true);
     }
+    
+    public void reniciaVendasMes () throws ArquivoException {
 
+        String linhaVenda = ("Código do Cliente;Data de venda;Código do produto;Quantidade;Modo de pagamento");
+        //Sobrescreve o arquivo...
+        super.adicionaTextoArquivo(linhaVenda,false);
+    }
+    
     public List<Venda> getListaVendas() throws ArquivoException { 
         pegaVendas();
         return listaVendas; }

@@ -2,9 +2,6 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.EnumMap;
 
 import model.*;
 import io.*;
@@ -14,7 +11,7 @@ import java.util.Comparator;
 
 public class RelatoriosHandler {
     
-    public static void GerarTotalPagarFornecedor() throws ArquivoException {
+    public static void GerarTotalPagarFornecedor(boolean trocaDeMes) throws ArquivoException {
         List<Compra> listaCompras = CompraHandler.getCompras();
         List<AhPagar> listaDevendoFornecedores = new ArrayList<>();
 
@@ -67,10 +64,10 @@ public class RelatoriosHandler {
 
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioAhPagar(listaFinal);    
+        arquivoRelatorio.CriaRelatorioAhPagar(listaFinal,trocaDeMes);    
     }
     
-    public static void GerarTotalReceberCliente() throws ArquivoException {
+    public static void GerarTotalReceberCliente(boolean trocaDeMes) throws ArquivoException {
         List<Venda> listaVendas = VendaHandler.getVendasFiado();
         ClientePF cf = null;
         ClientePJ cj = null;
@@ -150,10 +147,10 @@ public class RelatoriosHandler {
 
         // Escreve no arquivo CSV
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioAhReceber(listaFinal);
+        arquivoRelatorio.CriaRelatorioAhReceber(listaFinal,trocaDeMes);
     }
 
-    public static void GerarRelatorioProdutos() throws ArquivoException {
+    public static void GerarRelatorioProdutos(boolean trocaDeMes) throws ArquivoException {
         List<Produto> produtos = ProdutoHandler.getProdutos();
         List<Venda> vendas = VendaHandler.getVendas();
         java.util.Map<Integer, Integer> vendasPorProduto = new java.util.HashMap<>();
@@ -185,10 +182,10 @@ public class RelatoriosHandler {
         relatorioProdutos.sort(java.util.Comparator.comparingDouble(Produto::getLucro).reversed());
 
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioProdutos(relatorioProdutos);
+        arquivoRelatorio.CriaRelatorioProdutos(relatorioProdutos,trocaDeMes);
     }
 
-    public static void GerarRelatorioVendasPorMetodoPagamento() throws ArquivoException {
+    public static void GerarRelatorioVendasPorMetodoPagamento(boolean trocaDeMes) throws ArquivoException {
         List<Venda> vendas = VendaHandler.getVendas();
         java.util.Map<MetodoPagamento, double[]> stats = new java.util.EnumMap<>(MetodoPagamento.class);
 
@@ -222,10 +219,10 @@ public class RelatoriosHandler {
         }
 
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioVendasPorMetodoPagamento(reportLines);
+        arquivoRelatorio.CriaRelatorioVendasPorMetodoPagamento(reportLines,trocaDeMes);
     }
 
-    public static void GerarRelatorioEstoque() throws ArquivoException {
+    public static void GerarRelatorioEstoque(boolean trocaDeMes) throws ArquivoException {
         List<Produto> produtos = ProdutoHandler.getProdutos();
 
         produtos.sort(Comparator.comparing(Produto::getDescricao, String.CASE_INSENSITIVE_ORDER));
@@ -240,7 +237,7 @@ public class RelatoriosHandler {
         }
 
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioEstoque(reportLines);
+        arquivoRelatorio.CriaRelatorioEstoque(reportLines,trocaDeMes);
     }
     
 }

@@ -8,7 +8,6 @@ import model.ClientePJ;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,8 +36,7 @@ public final class ClienteHandler {
         endereco = sc.nextLine();
         System.out.print("Digite o número de telefone: ");
         telefone = sc.nextLine();
-        System.out.print("Digite a data do cadastro (dd/mm/yyyy): ");
-        dataCadastro = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dataCadastro = LocalDate.now();//Tem que ser a data de hoje...
         if (opcao == 1) {
             System.out.print("Digite o cpf: ");
             cpf = sc.nextLine();

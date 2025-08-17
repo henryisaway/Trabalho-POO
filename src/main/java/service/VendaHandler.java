@@ -106,5 +106,9 @@ public class VendaHandler {
     public static List<Venda> getVendasFiado()throws ArquivoException{
         return arquivoVenda.getListaVendasFiado();
     }
+    
+    public static void reniciaArquivo()throws ArquivoException{
+        arquivoVenda.reniciaVendasMes();
+    }
 }
 

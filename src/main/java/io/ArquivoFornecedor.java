@@ -48,9 +48,9 @@ public class ArquivoFornecedor extends Arquivo {
         pessoaContato = fornecedor.getPessoaContato();
 
         //Monta a linha em formato csv
-        String linhaFornecedor = (codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
+        String linhaFornecedor = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaFornecedor);
+        super.adicionaTextoArquivo(linhaFornecedor,true);
         listaFornecedor.add(new Fornecedor(nome,endereco,telefone,cnpj,pessoaContato,codigo));
     }
 

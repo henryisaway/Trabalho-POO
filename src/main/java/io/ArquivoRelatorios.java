@@ -34,8 +34,12 @@ OBS: Tudo isso ficara dentro da pasta Relatorios...
 //Não vai ser possivel herdar a classe Arquivo, pois ela e feita para arquivos Fixos...
 public class ArquivoRelatorios{
 
-    public void CriaRelatorioAhPagar(List<AhPagar> listaDividas) throws ArquivoException {
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+    public void CriaRelatorioAhPagar(List<AhPagar> listaDividas, boolean trocaDeMes) throws ArquivoException {
+        // Define a data do relatório: mês anterior se trocaDeMes for true, senão mês atual
+        LocalDate dataRelatorio = trocaDeMes ? LocalDate.now().minusMonths(1) : LocalDate.now();
+
+        // Formata a pasta com base na data escolhida
+        String nomePasta = dataRelatorio.format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
         Path caminhoArquivo = pastaRelatorio.resolve("1-apagar.csv");
 
@@ -65,8 +69,12 @@ public class ArquivoRelatorios{
         }
     }
 
-    public void CriaRelatorioAhReceber(List<AhReceber> listaDevedores) throws ArquivoException {
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+    public void CriaRelatorioAhReceber(List<AhReceber> listaDevedores, boolean trocaDeMes) throws ArquivoException {
+        // Define a data do relatório: mês anterior se trocaDeMes for true, senão mês atual
+        LocalDate dataRelatorio = trocaDeMes ? LocalDate.now().minusMonths(1) : LocalDate.now();
+
+        // Formata a pasta com base na data escolhida
+        String nomePasta = dataRelatorio.format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
         Path caminhoArquivo = pastaRelatorio.resolve("2-areceber.csv");
 
@@ -96,8 +104,12 @@ public class ArquivoRelatorios{
         }
     }
 
-    public void CriaRelatorioProdutos(List<Produto> produtos) throws ArquivoException {
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+    public void CriaRelatorioProdutos(List<Produto> produtos,boolean trocaDeMes) throws ArquivoException {
+        // Define a data do relatório: mês anterior se trocaDeMes for true, senão mês atual
+        LocalDate dataRelatorio = trocaDeMes ? LocalDate.now().minusMonths(1) : LocalDate.now();
+
+        // Formata a pasta com base na data escolhida
+        String nomePasta = dataRelatorio.format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
         Path caminhoArquivo = pastaRelatorio.resolve("3-vendasprod.csv");
 
@@ -125,8 +137,12 @@ public class ArquivoRelatorios{
         }
     }
 
-    public void CriaRelatorioVendasPorMetodoPagamento(java.util.List<String> reportLines) throws ArquivoException {
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+    public void CriaRelatorioVendasPorMetodoPagamento(java.util.List<String> reportLines,boolean trocaDeMes) throws ArquivoException {
+        // Define a data do relatório: mês anterior se trocaDeMes for true, senão mês atual
+        LocalDate dataRelatorio = trocaDeMes ? LocalDate.now().minusMonths(1) : LocalDate.now();
+
+        // Formata a pasta com base na data escolhida
+        String nomePasta = dataRelatorio.format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
         Path caminhoArquivo = pastaRelatorio.resolve("4-vendaspgto.csv");
 
@@ -152,8 +168,12 @@ public class ArquivoRelatorios{
         }
     }
 
-    public void CriaRelatorioEstoque(java.util.List<String> reportLines) throws ArquivoException {
-        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+    public void CriaRelatorioEstoque(java.util.List<String> reportLines,boolean trocaDeMes) throws ArquivoException {
+        // Define a data do relatório: mês anterior se trocaDeMes for true, senão mês atual
+        LocalDate dataRelatorio = trocaDeMes ? LocalDate.now().minusMonths(1) : LocalDate.now();
+
+        // Formata a pasta com base na data escolhida
+        String nomePasta = dataRelatorio.format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
         Path caminhoArquivo = pastaRelatorio.resolve("5-estoque.csv");
 

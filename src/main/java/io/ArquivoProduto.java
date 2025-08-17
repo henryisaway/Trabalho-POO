@@ -48,9 +48,9 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv
-        String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
+        String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaProduto);   
+        super.adicionaTextoArquivo(linhaProduto,true);   
         listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
     }
 

@@ -67,9 +67,9 @@ public class ArquivoCliente extends Arquivo {
         tipoCliente = "F";
         cpf = cliente.getCPF();
         //Monta a linha em formato csv
-        String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
+        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCliente);
+        super.adicionaTextoArquivo(linhaCliente, true);
         listaClientesPF.add(new ClientePF(nome, endereco, telefone, dataCadastro, cpf, codigo));
     }
     //Metodo que adicona um novo ClientePJ ao arquivo
@@ -84,9 +84,9 @@ public class ArquivoCliente extends Arquivo {
         cnpj = cliente.getCNPJ();
         numInscricao = cliente.getInscricaoEstadual();
         //Monta a linha em formato csv
-        String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
+        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCliente);
+        super.adicionaTextoArquivo(linhaCliente, true);
         listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
     }
 

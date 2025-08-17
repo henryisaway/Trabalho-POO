@@ -45,11 +45,17 @@ public class ArquivoCompra extends Arquivo{
         quantidade = compra.getQuantidade();
 
         //Monta a linha em formato csv
-        String linhaCompra = (numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
+        String linhaCompra = ("\n"+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCompra);
+        super.adicionaTextoArquivo(linhaCompra,true);
     }
     
+    public void reniciaComprasMes () throws ArquivoException {
+
+        String linhaCompra = ("número da nota fiscal;código do fornecedor;data de compra;código do produto;quantidade");
+        //Sobrescreve o arquivo...
+        super.adicionaTextoArquivo(linhaCompra,false);
+    }
     public List<Compra> getListaCompras() throws ArquivoException{ 
         pegaCompras();
         return listaCompras;

@@ -32,9 +32,8 @@ abstract class Arquivo {
         return texto.toString(); // Retorna todos os conteudos do arquivo como uma String
     }
     // Método que adiciona texto ao final do arquivo (modo append = true)
-    public void adicionaTextoArquivo(String texto) throws ArquivoException {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
-            bw.newLine();
+    public void adicionaTextoArquivo(String texto, boolean sobrescreva) throws ArquivoException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, sobrescreva))) {
             bw.write(texto); // Escreve o texto no final do arquivo
             bw.flush();
             

@@ -13,7 +13,8 @@ public class ProdutoHandler {
     private static List<Produto> produtos;
 
     public static List<Produto> getProdutos() {
-        return produtos;
+        
+        return arquivoProduto.getListaProdutos();
     }
 
     public static void carregaProduto() throws ArquivoException {

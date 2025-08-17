@@ -1,9 +1,11 @@
 import io.ArquivoException;
 
+import java.io.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
-import java.util.List;
-
 import service.*;
+
 
 import model.*;
 
@@ -11,12 +13,23 @@ public class App {
     private static final Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) throws ArquivoException {
-        
+       
         //Para melhor Funcionamento do codigo, estas tres listas sao carregadas em inicio de codigo!!
         ClienteHandler.carregaClientes();
         FornecedorHandler.carregaFornecedores();
         ProdutoHandler.carregaProduto();
         
+        if(verificarMudancaDeMesPorRegistro("src/main/java/resources/registro_vendas.csv")){
+            System.out.println("O mes mudou! Executando acoes de fechamento de relatorios do mes anterior...");
+            //RelatoriosHandler.GerarTotalPagarFornecedor(true);
+            RelatoriosHandler.GerarTotalReceberCliente(true);
+            RelatoriosHandler.GerarRelatorioProdutos(true);
+            RelatoriosHandler.GerarRelatorioVendasPorMetodoPagamento(true);
+            RelatoriosHandler.GerarRelatorioEstoque(true);
+            
+            VendaHandler.reniciaArquivo();
+            CompraHandler.reniciaArquivo();
+        }
         //Ja essas Duas, serão carregadas sob demanda...
         /*
         CompraHandler.carregaCompra();
@@ -65,7 +78,7 @@ public class App {
     }
 
     public static void menuPrincipal(){
-        System.out.println("[0] - Sair ");
+        System.out.println("\n\n\n[0] - Sair ");
         System.out.println("[1] - Geracao de relatorios mensais");
         System.out.println("[2] - Controle de contas");
         System.out.println("[3] - Registro de vendas");
@@ -101,11 +114,11 @@ public class App {
 
     public static void gerarRelatorioMensal()throws ArquivoException{
         
-        RelatoriosHandler.GerarTotalPagarFornecedor();
-        RelatoriosHandler.GerarTotalReceberCliente();
-        RelatoriosHandler.GerarRelatorioProdutos();
-        RelatoriosHandler.GerarRelatorioVendasPorMetodoPagamento();
-        RelatoriosHandler.GerarRelatorioEstoque();
+        RelatoriosHandler.GerarTotalPagarFornecedor(false);
+        RelatoriosHandler.GerarTotalReceberCliente(false);
+        RelatoriosHandler.GerarRelatorioProdutos(false);
+        RelatoriosHandler.GerarRelatorioVendasPorMetodoPagamento(false);
+        RelatoriosHandler.GerarRelatorioEstoque(false);
         
         System.out.println("\n\n-----------------------------------------------");
         System.out.println("| Armazenado na pasta *Relatorios*            |");
@@ -336,5 +349,39 @@ public class App {
             }
 
         }while(flag);
+    }
+    private static boolean verificarMudancaDeMesPorRegistro(String caminhoArquivo) {
+        // Define o formato esperado da data no CSV (ex: "2025-08-17")
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        // Obtém a data atual do sistema
+        LocalDate hoje = LocalDate.now();
+
+        // Tenta abrir e ler o arquivo CSV
+        try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
+            // Lê a primeira linha (geralmente o cabeçalho do CSV)
+            String linha = reader.readLine();
+
+            // Lê a segunda linha, que deve ser o primeiro registro de dados
+            linha = reader.readLine();
+
+            // Verifica se há um registro válido
+            if (linha != null) {
+                // Divide a linha em campos usando vírgula como separador
+                String[] campos = linha.split(";");
+
+                // Converte o primeiro campo (data) para um objeto LocalDate
+                LocalDate dataRegistro = LocalDate.parse(campos[1], formatter);
+
+                // Compara o mês e o ano do registro com o mês e ano atuais
+                return hoje.getMonthValue() != dataRegistro.getMonthValue() || hoje.getYear() != dataRegistro.getYear();
+            }
+        } catch (IOException | NullPointerException | ArrayIndexOutOfBoundsException e) {
+            // Em caso de erro (arquivo inexistente, formato inválido, etc.), exibe mensagem
+            System.out.println("Erro ao verificar data do registro: " + e.getMessage());
+        }
+
+        // Se não houver registros ou ocorrer erro, assume que o mês não mudou
+        return false;
     }
 }
