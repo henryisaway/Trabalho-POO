@@ -24,7 +24,10 @@ public class ArquivoProduto extends Arquivo{
 
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
-            linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
+            if (linhas[i].trim().isEmpty()) {
+                continue;
+            }
+            linha = linhas[i].split(";");//Divide a linha em campos, separados por ";"
             codigo = Integer.parseInt(linha[0]);
             descricao = linha[1];
             estoqueMin =Integer.parseInt(linha[2]);
@@ -47,7 +50,7 @@ public class ArquivoProduto extends Arquivo{
         //Monta a linha em formato csv
         String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaProduto);
+        super.adicionaTextoArquivo(linhaProduto);   
         listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
     }
 

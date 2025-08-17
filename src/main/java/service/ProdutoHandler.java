@@ -36,7 +36,7 @@ public class ProdutoHandler {
         valorCusto = sc.nextDouble();
         sc.nextLine();
         
-        Produto novoProduto = new Produto(descricao, estoqueMin, qtProdutos,valorCusto, percentualLucro);
+        Produto novoProduto = new Produto(descricao, estoqueMin, qtProdutos, valorCusto, percentualLucro);
         boolean cadastrou = CompraHandler.cadastraCompra(novoProduto.getCodigoProduto(), qtProdutos);
         if(cadastrou  == false)return;
         arquivoProduto.criaProduto(novoProduto);

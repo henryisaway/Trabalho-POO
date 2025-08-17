@@ -29,9 +29,9 @@ abstract class Arquivo {
             throw new ArquivoException("Erro de I/O.");
         }
 
-        return texto.toString();//Retorna todos os conteudos do arquivo como uma String
+        return texto.toString(); // Retorna todos os conteudos do arquivo como uma String
     }
-    //Métod que adiciona texto ao final do arquivo (modo append = true)
+    // Método que adiciona texto ao final do arquivo (modo append = true)
     public void adicionaTextoArquivo(String texto) throws ArquivoException {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true))) {
             bw.newLine();
@@ -72,6 +72,9 @@ abstract class Arquivo {
 
             // Lê e filtra as demais linhas
             while ((linha = br.readLine()) != null) {
+                if (linha.trim().isEmpty()) {
+                    continue;
+                }
                 linhaConteudo = linha.split(";");
                 codigo = Integer.parseInt(linhaConteudo[0]);
                 if (codigo != id) {

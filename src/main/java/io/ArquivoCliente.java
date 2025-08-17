@@ -32,7 +32,10 @@ public class ArquivoCliente extends Arquivo {
 
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
-            linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
+            if (linhas[i].trim().isEmpty()) {
+                continue;
+            }
+            linha = linhas[i].split(";");//Divide a linha em campos, separados por ";"
             //Extrai dados comuns tanto pra 'F' e 'J'
             codigo = Integer.parseInt(linha[0]);
             nome = linha[1];

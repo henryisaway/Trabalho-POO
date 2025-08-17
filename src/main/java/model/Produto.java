@@ -21,9 +21,9 @@ public class Produto {
         proxCod++;
 
         double porcentagem = (double)percentualLucro / 100;
-        valorVenda = valorDeCusto + (valorDeCusto *porcentagem);
+        valorVenda = valorDeCusto + (valorDeCusto * porcentagem);
     }
-    public Produto(int codigoProduto,String descricao, int estoqueMin, int qtEstoque, double valorDeCusto, int percentualLucro) {
+    public Produto(int codigoProduto, String descricao, int estoqueMin, int qtEstoque, double valorDeCusto, int percentualLucro) {
         this.descricao = descricao;
         this.estoqueMin = estoqueMin;
         this.qtEstoque = qtEstoque;

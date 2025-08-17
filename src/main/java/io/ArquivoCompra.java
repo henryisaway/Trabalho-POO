@@ -23,10 +23,13 @@ public class ArquivoCompra extends Arquivo{
 
         //Começa do indice 1 para pular o cabeçalho
         for(int i=1; i < linhas.length; i++) {
+            if (linhas[i].trim().isEmpty()) {
+                continue;
+            }
             linha = linhas[i].split(";");
             numeroNotaFiscal = Integer.parseInt(linha[0]);
             codigoFornecedor = Integer.parseInt(linha[1]);
-            dataCompra =LocalDate.parse(linha[2]);
+            dataCompra = LocalDate.parse(linha[2]);
             codigoProduto = Integer.parseInt(linha[3]);
             quantidade =Integer.parseInt(linha[4]);
 
