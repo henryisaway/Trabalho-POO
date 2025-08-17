@@ -99,6 +99,6 @@ public class Produto {
     }
 
     public String toString() {
-        return codigoProduto + ";" + descricao + ";" + valorDeCusto + ";" + getLucro(); 
+        return codigoProduto + ";" + descricao + ";" + valorDeCusto + ";" + String.format("%.2f", getLucro()); 
     }
 }

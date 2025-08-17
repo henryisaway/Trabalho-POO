@@ -101,14 +101,11 @@ public class App {
 
     public static void gerarRelatorioMensal()throws ArquivoException{
         
-        List<Compra> compras = CompraHandler.getCompras();
-        RelatoriosHandler.GerarTotalPagarFornecedor(compras);
-        
-        List<Venda> vendas = VendaHandler.getVendasFiado();
-        RelatoriosHandler.GerarTotalReceberCliente(vendas);
-
-        List<Produto> produtos = ProdutoHandler.getProdutos();
-        RelatoriosHandler.GerarRelatorioProdutos(produtos);
+        RelatoriosHandler.GerarTotalPagarFornecedor();
+        RelatoriosHandler.GerarTotalReceberCliente();
+        RelatoriosHandler.GerarRelatorioProdutos();
+        RelatoriosHandler.GerarRelatorioVendasPorMetodoPagamento();
+        RelatoriosHandler.GerarRelatorioEstoque();
         
         System.out.println("\n\n-----------------------------------------------");
         System.out.println("| Armazenado na pasta *Relatorios*            |");

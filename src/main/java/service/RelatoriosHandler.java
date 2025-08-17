@@ -2,6 +2,9 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
 
 import model.*;
 import io.*;
@@ -11,8 +14,8 @@ import java.util.Comparator;
 
 public class RelatoriosHandler {
     
-    public static void GerarTotalPagarFornecedor(List<Compra> listaCompras) throws ArquivoException {
-        
+    public static void GerarTotalPagarFornecedor() throws ArquivoException {
+        List<Compra> listaCompras = CompraHandler.getCompras();
         List<AhPagar> listaDevendoFornecedores = new ArrayList<>();
 
         for (Compra compra : listaCompras) {
@@ -67,7 +70,8 @@ public class RelatoriosHandler {
         arquivoRelatorio.CriaRelatorioAhPagar(listaFinal);    
     }
     
-    public static void GerarTotalReceberCliente(List<Venda> listaVendas) throws ArquivoException {
+    public static void GerarTotalReceberCliente() throws ArquivoException {
+        List<Venda> listaVendas = VendaHandler.getVendasFiado();
         ClientePF cf = null;
         ClientePJ cj = null;
         AhReceber ahReceber;
@@ -124,7 +128,7 @@ public class RelatoriosHandler {
             }
         }
 
-        Collections.sort(listaClientesDevedores, Comparator.comparing(AhReceber::getNomeDoCliente));
+        listaClientesDevedores.sort(Comparator.comparing(AhReceber::getNomeDoCliente, String.CASE_INSENSITIVE_ORDER));
 
         List<AhReceber> listaFinal = new ArrayList<>();
 
@@ -149,19 +153,94 @@ public class RelatoriosHandler {
         arquivoRelatorio.CriaRelatorioAhReceber(listaFinal);
     }
 
-    public static void GerarRelatorioProdutos(List<Produto> produtos) throws ArquivoException {
-        // Cria um comparador para ordenar os produtos.
-        // Critério primário: lucro, em ordem decrescente.
-        // Critério secundário (desempate): código do produto, em ordem crescente.
-        Comparator<Produto> comparador = Comparator.comparingDouble(Produto::getLucro).reversed()
-                .thenComparingInt(Produto::getCodigoProduto);
+    public static void GerarRelatorioProdutos() throws ArquivoException {
+        List<Produto> produtos = ProdutoHandler.getProdutos();
+        List<Venda> vendas = VendaHandler.getVendas();
+        java.util.Map<Integer, Integer> vendasPorProduto = new java.util.HashMap<>();
+        for (Venda venda : vendas) {
+            vendasPorProduto.put(venda.getCodProduto(), vendasPorProduto.getOrDefault(venda.getCodProduto(), 0) + venda.getQuantidade());
+        }
 
-        // Ordena a lista de produtos usando o comparador.
-        produtos.sort(comparador);
+        List<Produto> relatorioProdutos = new java.util.ArrayList<>();
+        for (Produto produto : produtos) {
+            int quantidadeVendida = vendasPorProduto.getOrDefault(produto.getCodigoProduto(), 0);
+            if (quantidadeVendida > 0) {
+                final double custoTotal = produto.getValorDeCusto() * quantidadeVendida;
+                final double lucroTotal = (produto.getValorVenda() - produto.getValorDeCusto()) * quantidadeVendida;
 
-        // Escreve a lista ordenada no arquivo CSV.
+                Produto relatorioProduto = new Produto(produto.getCodigoProduto(), produto.getDescricao(), 0, 0, 0, 0) {
+                    @Override
+                    public String toString() {
+                        return getCodigoProduto() + ";" + getDescricao() + ";" + String.format("%.2f", custoTotal) + ";" + String.format("%.2f", lucroTotal);
+                    }
+                    @Override
+                    public double getLucro() {
+                        return lucroTotal;
+                    }
+                };
+                relatorioProdutos.add(relatorioProduto);
+            }
+        }
+
+        relatorioProdutos.sort(java.util.Comparator.comparingDouble(Produto::getLucro).reversed());
+
         ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
-        arquivoRelatorio.CriaRelatorioProdutos(produtos);
+        arquivoRelatorio.CriaRelatorioProdutos(relatorioProdutos);
+    }
+
+    public static void GerarRelatorioVendasPorMetodoPagamento() throws ArquivoException {
+        List<Venda> vendas = VendaHandler.getVendas();
+        java.util.Map<MetodoPagamento, double[]> stats = new java.util.EnumMap<>(MetodoPagamento.class);
+
+        for (Venda venda : vendas) {
+            Produto produto = ProdutoHandler.buscarProduto(venda.getCodProduto());
+            if (produto == null) {
+                continue;
+            }
+
+            double rawIncome = produto.getValorVenda() * venda.getQuantidade();
+            double profit = (produto.getValorVenda() - produto.getValorDeCusto()) * venda.getQuantidade();
+
+            stats.computeIfAbsent(venda.getMetodoPagamento(), k -> new double[2]);
+            stats.get(venda.getMetodoPagamento())[0] += rawIncome;
+            stats.get(venda.getMetodoPagamento())[1] += profit;
+        }
+
+        java.util.List<java.util.Map.Entry<MetodoPagamento, double[]>> sortedStats = new java.util.ArrayList<>(stats.entrySet());
+
+        sortedStats.sort((e1, e2) -> {
+            int profitComparison = Double.compare(e2.getValue()[1], e1.getValue()[1]);
+            if (profitComparison != 0) {
+                return profitComparison;
+            }
+            return e1.getKey().getCodigo().compareTo(e2.getKey().getCodigo());
+        });
+
+        java.util.List<String> reportLines = new java.util.ArrayList<>();
+        for (java.util.Map.Entry<MetodoPagamento, double[]> entry : sortedStats) {
+            reportLines.add(entry.getKey().name() + ";" + String.format("%.2f", entry.getValue()[0]) + ";" + String.format("%.2f", entry.getValue()[1]));
+        }
+
+        ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
+        arquivoRelatorio.CriaRelatorioVendasPorMetodoPagamento(reportLines);
+    }
+
+    public static void GerarRelatorioEstoque() throws ArquivoException {
+        List<Produto> produtos = ProdutoHandler.getProdutos();
+
+        produtos.sort(Comparator.comparing(Produto::getDescricao, String.CASE_INSENSITIVE_ORDER));
+
+        java.util.List<String> reportLines = new java.util.ArrayList<>();
+        for (Produto produto : produtos) {
+            String observacoes = "";
+            if (produto.getQtEstoque() < produto.getEstoqueMin()) {
+                observacoes = "COMPRAR MAIS";
+            }
+            reportLines.add(produto.getCodigoProduto() + ";" + produto.getDescricao() + ";" + produto.getQtEstoque() + ";" + observacoes);
+        }
+
+        ArquivoRelatorios arquivoRelatorio = new ArquivoRelatorios();
+        arquivoRelatorio.CriaRelatorioEstoque(reportLines);
     }
     
 }

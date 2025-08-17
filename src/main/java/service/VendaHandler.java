@@ -18,6 +18,7 @@ public class VendaHandler {
 
     public static void carregaVendas() throws ArquivoException {
         arquivoVenda.pegaVendas();
+        vendas = arquivoVenda.getListaVendas();
     }
 
     public static void cadastraVenda() throws ArquivoException {

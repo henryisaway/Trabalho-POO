@@ -113,11 +113,65 @@ public class ArquivoRelatorios{
 
         try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
             // Define o cabeçalho do CSV.
-            writer.write("codigo_produto;descricao;receita bruta;lucro_total\n");
+            writer.write("codigo do produto;descricao;receita bruta;lucro total\n");
 
             // Escreve cada produto da lista em uma nova linha do CSV.
             for (Produto produto : produtos) {
                 writer.write(produto.toString());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new ArquivoException("Erro de I/O.");
+        }
+    }
+
+    public void CriaRelatorioVendasPorMetodoPagamento(java.util.List<String> reportLines) throws ArquivoException {
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve("4-vendaspgto.csv");
+
+        if (!Files.exists(pastaRelatorio)) {
+            try {
+                Files.createDirectories(pastaRelatorio);
+            } catch (IOException e) {
+                throw new ArquivoException("Erro de I/O.");
+            }
+        }
+
+        OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
+            writer.write("metodo de pagamento;receita bruta;lucro total\n");
+
+            for (String line : reportLines) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new ArquivoException("Erro de I/O.");
+        }
+    }
+
+    public void CriaRelatorioEstoque(java.util.List<String> reportLines) throws ArquivoException {
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve("5-estoque.csv");
+
+        if (!Files.exists(pastaRelatorio)) {
+            try {
+                Files.createDirectories(pastaRelatorio);
+            } catch (IOException e) {
+                throw new ArquivoException("Erro de I/O.");
+            }
+        }
+
+        OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
+            writer.write("código do produto;descrição do produto;quantidade em estoque;observações\n");
+
+            for (String line : reportLines) {
+                writer.write(line);
                 writer.newLine();
             }
         } catch (IOException e) {
