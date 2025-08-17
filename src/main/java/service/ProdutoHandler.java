@@ -32,7 +32,7 @@ public class ProdutoHandler {
         System.out.print("Digite o percentualLucro: ");
         percentualLucro = sc.nextInt();
         sc.nextLine();
-        System.out.print("Digite o valor pago pelo produto pela empresa: ");
+        System.out.print("Digite o valor pago pela empresa para a compra do produto: ");
         valorCusto = sc.nextDouble();
         sc.nextLine();
         

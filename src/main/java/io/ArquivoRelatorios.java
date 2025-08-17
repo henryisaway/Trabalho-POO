@@ -44,7 +44,7 @@ public class ArquivoRelatorios{
             try {
                 Files.createDirectories(pastaRelatorio);
             } catch (IOException e) {
-                throw new ArquivoException("Erro ao criar pasta de relatório.");
+                throw new ArquivoException("Erro de I/O.");
             }
         }
 
@@ -62,7 +62,7 @@ public class ArquivoRelatorios{
             }
 
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao escrever no relatório.");
+            throw new ArquivoException("Erro de I/O.");
         }
     }
 
@@ -75,7 +75,7 @@ public class ArquivoRelatorios{
             try {
                 Files.createDirectories(pastaRelatorio);
             } catch (IOException e) {
-                throw new ArquivoException("Erro ao criar pasta de relatório.");
+                throw new ArquivoException("Erro de I/O.");
             }
         }
 
@@ -93,7 +93,7 @@ public class ArquivoRelatorios{
             }
 
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao escrever no relatório.");
+            throw new ArquivoException("Erro de I/O.");
         }
     }
 }

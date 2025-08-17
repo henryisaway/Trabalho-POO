@@ -49,7 +49,7 @@ public class ArquivoVenda extends Arquivo{
         }
     }
     public  void pegaVendasFiado() throws ArquivoException {
-        String conteudoArquivo = super.getTextoArquivo(); //Le todos conteudos do arquivo  como texto
+        String conteudoArquivo = super.getTextoArquivo(); // Lê todos conteudos do arquivo  como texto
         String[] linhas = conteudoArquivo.split("\\r?\\n");//Separa conteudo em linhas
         String[] linha;
 
@@ -57,7 +57,7 @@ public class ArquivoVenda extends Arquivo{
         for(int i=1; i < linhas.length; i++) {
             linha = linhas[i].split(";");//Divide a linha em campos, separados por ';'
             
-            if(!linha[0].equals(' ')){
+            if(!linha[0].equals(" ")){
                 codigoCliente = Integer.parseInt(linha[0]);
                 dataVenda = LocalDate.parse(linha[1]);
                 codigoProduto =Integer.parseInt(linha[2]);

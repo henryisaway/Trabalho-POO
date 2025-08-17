@@ -26,7 +26,7 @@ abstract class Arquivo {
         } catch (FileNotFoundException e) {
             throw  new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao lidar com o arquivo!");
+            throw new ArquivoException("Erro de I/O.");
         }
 
         return texto.toString();//Retorna todos os conteudos do arquivo como uma String
@@ -41,7 +41,7 @@ abstract class Arquivo {
         } catch (FileNotFoundException e) {
             throw new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao lidar com o arquivo!");
+            throw new ArquivoException("Erro de I/O.");
         }
     }
 
@@ -52,7 +52,7 @@ abstract class Arquivo {
         } catch (FileNotFoundException e) {
             throw  new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao lidar com o arquivo!");
+            throw new ArquivoException("Erro de I/O.");
         }
     }
 
@@ -81,7 +81,7 @@ abstract class Arquivo {
         } catch (FileNotFoundException e) {
             throw new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao lidar com o arquivo!");
+            throw new ArquivoException("Erro de I/O.");
         }
 
         // Só reescreve o arquivo se tudo deu certo
@@ -114,7 +114,7 @@ abstract class Arquivo {
         } catch (FileNotFoundException e) {
             throw  new ArquivoException("Arquivo não encontrado!");
         } catch (IOException e) {
-            throw new ArquivoException("Erro ao lidar com o arquivo!");
+            throw new ArquivoException("Erro de I/O.");
         }
     }
 }
