@@ -28,17 +28,16 @@ Relatórios gerados:
 - areceber.csv
 - apagar.csv
 
-OBS: Tudo isso ficara dentro da pasta report...
+OBS: Tudo isso ficara dentro da pasta Relatorios...
 */
 
-
-//Não vai ser possivel herdar a classe Arquivo, pois ela e feita pra arquivos Fixos...
+//Não vai ser possivel herdar a classe Arquivo, pois ela e feita para arquivos Fixos...
 public class ArquivoRelatorios{
 
     public void CriaRelatorioAhPagar(List<AhPagar> listaDividas) throws ArquivoException {
         String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
-        Path caminhoArquivo = pastaRelatorio.resolve("apagar.csv");
+        Path caminhoArquivo = pastaRelatorio.resolve("1-apagar.csv");
 
         if (!Files.exists(pastaRelatorio)) {
             try {
@@ -69,7 +68,7 @@ public class ArquivoRelatorios{
     public void CriaRelatorioAhReceber(List<AhReceber> listaDevedores) throws ArquivoException {
         String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
         Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
-        Path caminhoArquivo = pastaRelatorio.resolve("areceber.csv");
+        Path caminhoArquivo = pastaRelatorio.resolve("2-areceber.csv");
 
         if (!Files.exists(pastaRelatorio)) {
             try {
@@ -92,6 +91,35 @@ public class ArquivoRelatorios{
                 writer.newLine();
             }
 
+        } catch (IOException e) {
+            throw new ArquivoException("Erro de I/O.");
+        }
+    }
+
+    public void CriaRelatorioProdutos(List<Produto> produtos) throws ArquivoException {
+        String nomePasta = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy_MM"));
+        Path pastaRelatorio = Paths.get("Relatorios", nomePasta);
+        Path caminhoArquivo = pastaRelatorio.resolve("3-vendasprod.csv");
+
+        if (!Files.exists(pastaRelatorio)) {
+            try {
+                Files.createDirectories(pastaRelatorio);
+            } catch (IOException e) {
+                throw new ArquivoException("Erro de I/O.");
+            }
+        }
+
+        OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
+
+        try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
+            // Define o cabeçalho do CSV.
+            writer.write("codigo_produto;descricao;receita bruta;lucro_total\n");
+
+            // Escreve cada produto da lista em uma nova linha do CSV.
+            for (Produto produto : produtos) {
+                writer.write(produto.toString());
+                writer.newLine();
+            }
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }

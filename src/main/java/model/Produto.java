@@ -63,6 +63,9 @@ public class Produto {
         return valorVenda;
     }
     
+    public double getLucro() {
+        return valorVenda - valorDeCusto;
+    }
 
     public void setDescricao(String descricao) {this.descricao = descricao;}
 
@@ -93,5 +96,9 @@ public class Produto {
         return "Codigo do Produto: "+this.codigoProduto+" |Descricao: "+this.descricao+" |Estoque minimo: "+
                 this.estoqueMin+" |Quantidade atual em estoque: "+this.qtEstoque+" |Valor de Custo: "+
                 this.valorDeCusto+" |Percentual de lucro: "+this.percentualLucro;
+    }
+
+    public String toString() {
+        return codigoProduto + ";" + descricao + ";" + valorDeCusto + ";" + getLucro(); 
     }
 }

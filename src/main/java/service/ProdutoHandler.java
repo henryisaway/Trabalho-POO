@@ -12,6 +12,10 @@ public class ProdutoHandler {
     private static final ArquivoProduto arquivoProduto = new ArquivoProduto(new File("src/main/java/resources/cadastro_produtos.csv"));
     private static List<Produto> produtos;
 
+    public static List<Produto> getProdutos() {
+        return produtos;
+    }
+
     public static void carregaProduto() throws ArquivoException {
         arquivoProduto.pegaProdutos();
     }

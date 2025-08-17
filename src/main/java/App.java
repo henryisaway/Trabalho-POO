@@ -106,6 +106,9 @@ public class App {
         
         List<Venda> vendas = VendaHandler.getVendasFiado();
         RelatoriosHandler.GerarTotalReceberCliente(vendas);
+
+        List<Produto> produtos = ProdutoHandler.getProdutos();
+        RelatoriosHandler.GerarRelatorioProdutos(produtos);
         
         System.out.println("\n\n-----------------------------------------------");
         System.out.println("| Armazenado na pasta *Relatorios*            |");
