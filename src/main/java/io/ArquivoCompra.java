@@ -1,6 +1,6 @@
 package io;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Compra;
@@ -45,14 +45,27 @@ public class ArquivoCompra extends Arquivo{
         quantidade = compra.getQuantidade();
 
         //Monta a linha em formato csv
-        String linhaCompra = ("\n"+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCompra,true);
+        String linhaCompra = (+numeroNotaFiscal+";"+codigoFornecedor+";"+dataCompra+";"+codigoProduto+";"+quantidade);
+        //Adiciona a linha ao final do arquivo//Adiciona a linha ao final do arquivo
+        try {
+            File arquivo = new File("src/main/java/resources/registro_compras.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaCompra = "\n" + linhaCompra;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaCompra, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
     }
     
     public void reniciaComprasMes () throws ArquivoException {
 
-        String linhaCompra = ("número da nota fiscal;código do fornecedor;data de compra;código do produto;quantidade");
+        String linhaCompra = ("numero da nota fiscal;codigo do fornecedor;data de compra;codigo do produto;quantidade");
         //Sobrescreve o arquivo...
         super.adicionaTextoArquivo(linhaCompra,false);
     }

@@ -188,7 +188,7 @@ public class ArquivoRelatorios{
         OpenOption[] configAbrirArquivo = new OpenOption[]{StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING};
 
         try (BufferedWriter writer = Files.newBufferedWriter(caminhoArquivo, configAbrirArquivo)) {
-            writer.write("código do produto;descrição do produto;quantidade em estoque;observações\n");
+            writer.write("codigo do produto;descrição do produto;quantidade em estoque;observacoes\n");
 
             for (String line : reportLines) {
                 writer.write(line);

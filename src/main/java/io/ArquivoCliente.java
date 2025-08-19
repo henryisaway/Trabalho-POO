@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import model.Compra;
 
 //Classe responsável por ler e gravar objetos de ClientePF e Cliente PJ em arquivos
 public class ArquivoCliente extends Arquivo {
@@ -56,23 +55,38 @@ public class ArquivoCliente extends Arquivo {
         }
     }
     //Metodo que adicona um novo ClientePF ao arquivo
-    public void criaCliente (ClientePF cliente) throws ArquivoException {
-        //Extrai dados Cliente PF
+    public void criaCliente(ClientePF cliente) throws ArquivoException {
+        // Extrai dados do cliente PF
         codigo = cliente.getCodigoIndentificador();
         nome = cliente.getNome();
         endereco = cliente.getEndereco();
         telefone = cliente.getTelefone();
         dataCadastro = cliente.getData();
-
         tipoCliente = "F";
         cpf = cliente.getCPF();
-        //Monta a linha em formato csv
-        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cpf);
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCliente, true);
+
+        // Monta a linha em formato CSV
+        String linhaCliente = codigo + ";" + nome + ";" + endereco + ";" + telefone + ";" +
+                              formatador.format(dataCadastro) + ";" + tipoCliente + ";" + cpf;
+
+        try {
+            File arquivo = new File("src/main/java/resources/cadastro_clientes.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaCliente = "\n" + linhaCliente;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaCliente, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
+
+        // Atualiza a lista de clientes
         listaClientesPF.add(new ClientePF(nome, endereco, telefone, dataCadastro, cpf, codigo));
     }
-    //Metodo que adicona um novo ClientePJ ao arquivo
     public void criaCliente (ClientePJ cliente) throws ArquivoException {
         //Extrai dados Cliente PJ
         codigo = cliente.getCodigoIndentificador();
@@ -84,9 +98,24 @@ public class ArquivoCliente extends Arquivo {
         cnpj = cliente.getCNPJ();
         numInscricao = cliente.getInscricaoEstadual();
         //Monta a linha em formato csv
-        String linhaCliente = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaCliente, true);
+        
+        String linhaCliente = (codigo+";"+nome+";"+endereco+";"+telefone+";"+formatador.format(dataCadastro)+";"+tipoCliente+";"+cnpj+";"+numInscricao);
+        //Adiciona a linha ao final do arquivo//Adiciona a linha ao final do arquivo
+        try {
+            File arquivo = new File("src/main/java/resources/cadastro_clientes.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaCliente = "\n" + linhaCliente;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaCliente, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
+        // Atualiza a lista de clientes
         listaClientesPJ.add(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro, codigo));
     }
 
@@ -129,7 +158,7 @@ public class ArquivoCliente extends Arquivo {
             }
         }
     }
- 
+    
     public List<ClientePF> getListaClientePF() { return listaClientesPF; }
     public List<ClientePJ> getListaClientePJ() { return listaClientesPJ; }
 }

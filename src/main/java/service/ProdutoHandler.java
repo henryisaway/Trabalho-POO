@@ -25,25 +25,19 @@ public class ProdutoHandler {
         String descricao;
         int estoqueMin, qtProdutos, percentualLucro;
         double valorCusto;
-
-        System.out.print("Digite a descricao do produto: ");
-        descricao = sc.nextLine();
-        System.out.print("Digite o estoque minimo para este produto: ");
-        estoqueMin = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Digite a quantidade do produto em estoque: ");
-        qtProdutos = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Digite o percentualLucro: ");
-        percentualLucro = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Digite o valor pago pela empresa para a compra do produto: ");
-        valorCusto = sc.nextDouble();
-        sc.nextLine();
+        String entrada;
+        
+        descricao = Leitor.lerString("Digite a descricao do produto: ");
+        estoqueMin = Leitor.lerInteiro("Digite o estoque minimo para este produto: ");
+        qtProdutos = Leitor.lerInteiro("Digite a quantidade do produto em estoque: ");
+        percentualLucro = Leitor.lerInteiro("Digite o percentualLucro: ");
+        valorCusto = Leitor.lerDouble("Digite o valor pago pela empresa para a compra do produto: ");
         
         Produto novoProduto = new Produto(descricao, estoqueMin, qtProdutos, valorCusto, percentualLucro);
         boolean cadastrou = CompraHandler.cadastraCompra(novoProduto.getCodigoProduto(), qtProdutos);
-        if(cadastrou  == false)return;
+        if(cadastrou  == false){
+            return;
+        }
         arquivoProduto.criaProduto(novoProduto);
     }
 
@@ -99,55 +93,85 @@ public class ProdutoHandler {
         int estoqueMin, qtProdutos, percentualLucro;
         double valorCusto;
         
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
         System.out.print("Descricao -> ["+produto.getDescricao()+"] ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) produto.setDescricao(entrada);
         
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
-        System.out.print("Estoque minimo -> ["+produto.getEstoqueMin()+"]: ");
-        entrada = sc.nextLine();
-        if(!entrada.trim().isEmpty()){
-            estoqueMin = Integer.parseInt(entrada);
-            produto.setEstoqueMin(estoqueMin);
-        }
-        
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
-        System.out.print("Quantida de Produtos em estoque -> ["+produto.getQtEstoque()+"]: ");
-        entrada = sc.nextLine();
-        if(!entrada.trim().isEmpty()){
-            qtProdutos = Integer.parseInt(entrada);//qtprodutos = quantiaAntiga + novaFrota
-            if(qtProdutos > produto.getQtEstoque()){
-                boolean editado = CompraHandler.cadastraCompra(produto.getCodigoProduto(),qtProdutos - produto.getQtEstoque());//(qtProdutos - produto.getQtEstoque) -> Vai nos dizer a nova quantia comprada...
-                if(editado == false){
-                    System.out.println("Retornando ao menu principal!");
-                    return;
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
+        while (true) {
+            System.out.print("Estoque minimo -> ["+produto.getEstoqueMin()+"]: ");
+            entrada = sc.nextLine();
+            if(!entrada.trim().isEmpty()){
+                try {
+                    estoqueMin = Integer.parseInt(entrada);
+                    produto.setEstoqueMin(estoqueMin);
+                    break; // Entrada válida, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Valor invalido! Digite um numero inteiro ou pressione Enter para manter o valor atual.");
                 }
-                produto.setQtEstoque(qtProdutos);
-                System.out.println("Compra de novos produtos registrada...");
             }
-            else{
-                produto.setQtEstoque(qtProdutos);
-                System.out.println("Produtos retirados do estoque com sucesso!");
-            }
+            else break;
         }
         
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
-        System.out.print("Percentual de lucro ->["+produto.getPercentualLucro()+"]: ");
-        entrada = sc.nextLine();
-        if(!entrada.trim().isEmpty()){
-            percentualLucro = Integer.parseInt(entrada);
-            produto.setPercentualLucro(percentualLucro);
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
+        while (true) {
+            System.out.print("Quantida de Produtos em estoque -> ["+produto.getQtEstoque()+"]: ");
+            entrada = sc.nextLine();
+            if(!entrada.trim().isEmpty()){
+                try {
+                    qtProdutos = Integer.parseInt(entrada);
+                    if(qtProdutos > produto.getQtEstoque()){
+                        boolean editado = CompraHandler.cadastraCompra(produto.getCodigoProduto(),qtProdutos - produto.getQtEstoque());//(qtProdutos - produto.getQtEstoque) -> Vai nos dizer a nova quantia comprada...
+                        if(editado == false){
+                            System.out.println("Retornando ao menu principal!");
+                            return;
+                        }
+                        produto.setQtEstoque(qtProdutos);
+                        System.out.println("Compra de novos produtos registrada...");
+                    }
+                    else{
+                        produto.setQtEstoque(qtProdutos);
+                        System.out.println("Produtos retirados do estoque com sucesso!");
+                    }
+                    break; // Entrada válida, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Valor invalido! Digite um numero inteiro ou pressione Enter para manter o valor atual.");
+                }
+            }
+            else break;
         }
         
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
-        System.out.print("Valor pago pela empresa no produto -> ["+produto.getValorDeCusto()+"]: ");
-        entrada = sc.nextLine();
-        if(!entrada.trim().isEmpty()){
-            valorCusto = Double.parseDouble(entrada);
-            produto.setValorDeCusto(valorCusto);
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
+        while (true) {
+            System.out.print("Percentual de lucro ->["+produto.getPercentualLucro()+"]: ");
+            entrada = sc.nextLine();
+            if(!entrada.trim().isEmpty()){
+                try {
+                    percentualLucro = Integer.parseInt(entrada);
+                    produto.setPercentualLucro(percentualLucro);
+                    break; // Entrada válida, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Valor invalido! Digite um numero inteiro ou pressione Enter para manter o valor atual.");
+                }
+            }
+            else break;
         }
-
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
+        while (true) {
+            System.out.print("Valor pago pela empresa no produto -> ["+produto.getValorDeCusto()+"]: ");
+            entrada = sc.nextLine();
+            if(!entrada.trim().isEmpty()){
+                try {
+                    valorCusto = Double.parseDouble(entrada);
+                    produto.setValorDeCusto(valorCusto);
+                    break; // Entrada válida, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Valor invalido! Digite um numero inteiro ou pressione Enter para manter o valor atual.");
+                }
+            }
+            else break;
+        }
         arquivoProduto.editaProduto(produto);
         System.out.println("Produto editado com sucesso!");
     }
@@ -158,27 +182,31 @@ public class ProdutoHandler {
 
             if(produto.getCodigoProduto() == codigoProduto){
                 if(produto.getQtEstoque() == 0){
-                    System.out.println("Não temos esse produto em estoque!");
+                    System.out.println("Nao temos esse produto em estoque!");
                     return 0;
                 }
                 else if(produto.getQtEstoque() <quantidade && produto.getQtEstoque() > 0){
                     do{
-                    System.out.print("Temos apenas "+produto.getQtEstoque()+ " deste produto em estoque!\n"
-                            + "Deseja comprar uma quantia menor...\n"
-                            + "1 - Sim\n"
-                            + "2 - Nao\n"
-                            + "Digite sua opcao: ");
-                    int opcao = sc.nextInt();
-                    sc.nextLine();
-                    if(opcao == 1){
-                        System.out.print("Digite a nova quantia: ");
-                        quantidade = sc.nextInt();
-                        if(quantidade < produto.getQtEstoque()){
-                            produto.setQtEstoque(produto.getQtEstoque() - quantidade);
-                            arquivoProduto.editaProduto(produto);
-                            break;
+                        System.out.print("Temos apenas "+produto.getQtEstoque()+ " deste produto em estoque!\n"
+                                + "Deseja comprar uma quantia menor...\n"
+                                + "1 - Sim\n"
+                                + "2 - Nao\n"
+                                );
+                        int opcao = Leitor.lerInteiro("Digite sua opcao: ");
+                        if(opcao == 1){
+                            quantidade = Leitor.lerInteiro("Digite a nova quantia: ");
+                            if(quantidade < produto.getQtEstoque()){
+                                produto.setQtEstoque(produto.getQtEstoque() - quantidade);
+                                arquivoProduto.editaProduto(produto);
+                                break;
+                            }
                         }
-                    }
+                        else if(opcao <1 || opcao > 2){
+                            System.out.println("Digite 1 ou 2...");
+                        }
+                        else{
+                            return 0;
+                        }
                     }while(true);
                 }
                 else{

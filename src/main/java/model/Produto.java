@@ -98,6 +98,7 @@ public class Produto {
                 this.valorDeCusto+" |Percentual de lucro: "+this.percentualLucro;
     }
 
+    @Override
     public String toString() {
         return codigoProduto + ";" + descricao + ";" + valorDeCusto + ";" + String.format("%.2f", getLucro()); 
     }

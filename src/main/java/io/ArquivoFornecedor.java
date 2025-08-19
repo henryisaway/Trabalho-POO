@@ -48,9 +48,24 @@ public class ArquivoFornecedor extends Arquivo {
         pessoaContato = fornecedor.getPessoaContato();
 
         //Monta a linha em formato csv
-        String linhaFornecedor = ("\n"+codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaFornecedor,true);
+        String linhaFornecedor = (codigo+";"+nome+";"+endereco+";"+telefone+";"+cnpj+";"+pessoaContato);
+        
+        try {
+            File arquivo = new File("src/main/java/resources/cadastro_fornecedores.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaFornecedor = "\n" + linhaFornecedor;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaFornecedor, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
+
+        // Atualiza a lista de fornecedores
         listaFornecedor.add(new Fornecedor(nome,endereco,telefone,cnpj,pessoaContato,codigo));
     }
 

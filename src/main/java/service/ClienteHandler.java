@@ -25,33 +25,32 @@ public final class ClienteHandler {
         int numInscricao, opcao;
         String nome, endereco, telefone, cpf, cnpj;
         LocalDate dataCadastro;
+        String entrada;
+        
+        while (true) {
+            System.out.print("Digite [1] PF ou [2] PJ: ");
+            entrada = sc.nextLine(); // lê a linha inteira
 
-        System.out.print("O cliente é: \n[1] PF (Pessoa Física) \n[2] PJ (Pessoa Jurídica) \nDigite uma opção: ");
-        opcao = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Digite o nome: ");
-        nome = sc.nextLine();
-        System.out.print("Digite o endereço: ");
-        endereco = sc.nextLine();
-        System.out.print("Digite o número de telefone: ");
-        telefone = sc.nextLine();
+            if (entrada.trim().equals("1") || entrada.trim().equals("2")) {
+                opcao = Integer.parseInt(entrada.trim());
+                break;
+            } else {
+                System.out.println("Entrada invalida. Tente novamente!");
+            }
+        }
+        nome = Leitor.lerString("Digite o nome: ");
+        endereco = Leitor.lerString("Digite o endereco: ");
+        telefone = Leitor.lerString("Digite o numero de telefone: ");
         dataCadastro = LocalDate.now();//Tem que ser a data de hoje...
         if (opcao == 1) {
-            System.out.print("Digite o cpf: ");
-            cpf = sc.nextLine();
-
+            cpf = Leitor.lerString("Digite o cpf: ");
             arquivoCliente.criaCliente(new ClientePF(nome, endereco, telefone, dataCadastro, cpf));
-        } else if (opcao == 2) {
-            System.out.print("Digite o cnpj: ");
-            cnpj = sc.nextLine();
-            System.out.print("Digite o número de inscrição estadual: ");
-            numInscricao = sc.nextInt();
-            sc.nextLine();
-
+        } 
+        else{
+            cnpj =Leitor.lerString("Digite o cnpj: ");
+                
+            numInscricao = Leitor.lerInteiro("Digite o numero de inscricao estadual: ");
             arquivoCliente.criaCliente(new ClientePJ(nome, endereco, telefone, cnpj, numInscricao, dataCadastro));
-        } else {
-            System.out.println("Digite uma opção válida!");
         }
     }
 
@@ -119,19 +118,19 @@ public final class ClienteHandler {
                 return;
             }
         }
-        System.out.println("Cliente não existe!");
+        System.out.println("Cliente nao existe!");
     }
 
     public static void edicaoCliente(ClientePF cliente) throws ArquivoException {
         String entrada;
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
         System.out.print("Nome ["+cliente.getNome()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setNome(entrada);
-        System.out.print("Endereço ["+cliente.getEndereco()+"]: ");
+        System.out.print("Endereco ["+cliente.getEndereco()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setEndereco(entrada);
-        System.out.print("Número ["+cliente.getTelefone()+"]: ");
+        System.out.print("Numero ["+cliente.getTelefone()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setTelefone(entrada);
         System.out.print("CPF ["+cliente.getCPF()+"]: ");
@@ -143,22 +142,34 @@ public final class ClienteHandler {
 
     public static void edicaoCliente(ClientePJ cliente) throws ArquivoException {
         String entrada;
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
         System.out.print("Nome ["+cliente.getNome()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setNome(entrada);
-        System.out.print("Endereço ["+cliente.getEndereco()+"]: ");
+        System.out.print("Endereco ["+cliente.getEndereco()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setEndereco(entrada);
-        System.out.print("Número ["+cliente.getTelefone()+"]: ");
+        System.out.print("Numero ["+cliente.getTelefone()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setTelefone(entrada);
         System.out.print("CNPJ ["+cliente.getCNPJ()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) cliente.setCNPJ(entrada);
-        System.out.print("Inscrição Estadual ["+cliente.getInscricaoEstadual()+"]: ");
-        entrada = sc.nextLine();
-        if(!entrada.trim().isEmpty()) cliente.setInscricaoEstadual(Integer.parseInt(entrada));
+    
+        while (true) {
+            System.out.print("Inscricao Estadual [" + cliente.getInscricaoEstadual() + "]: ");
+            entrada = sc.nextLine();
+            if(!entrada.trim().isEmpty()){
+                try {
+                    int inscricao = Integer.parseInt(entrada);
+                    cliente.setInscricaoEstadual(inscricao);
+                    break; // Entrada válida, sai do loop
+                } catch (NumberFormatException e) {
+                    System.out.println("Valor invalido! Digite um numero inteiro ou pressione Enter para manter o valor atual.");
+                }
+            }
+            else break;
+        }
         arquivoCliente.editaCliente(cliente);
         System.out.println("Cliente editado com sucesso!");
     }

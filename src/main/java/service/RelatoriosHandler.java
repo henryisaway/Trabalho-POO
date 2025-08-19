@@ -20,11 +20,11 @@ public class RelatoriosHandler {
             Produto produto = ProdutoHandler.buscarProduto(compra.getCodigoProduto());
 
             if (produto == null) {
-                System.out.println("[AVISO] Compra registrada para produto inexistente (código: " + compra.getCodigoProduto() + "). Ignorando.");
+                System.out.println("[AVISO] Compra registrada para produto inexistente (codigo: " + compra.getCodigoProduto() + "). Ignorando.");
                 continue;
             }
             if (fornecedor == null) {
-                System.out.println("[AVISO] Compra registrada para fornecedor inexistente (código: " + compra.getCodigoFornecedor() + "). Ignorando.");
+                System.out.println("[AVISO] Compra registrada para fornecedor inexistente (codigo: " + compra.getCodigoFornecedor() + "). Ignorando.");
                 continue;
             }
 
@@ -80,11 +80,11 @@ public class RelatoriosHandler {
             Produto produto = ProdutoHandler.buscarProduto(V.getCodProduto());
 
             if (produto == null) {
-                System.out.println("[AVISO] Venda registrada para produto inexistente (código: " + V.getCodProduto() + "). Ignorando.");
+                System.out.println("[AVISO] Venda registrada para produto inexistente (codigo: " + V.getCodProduto() + "). Ignorando.");
                 continue;
             }
             if (cliente == null) {
-                System.out.println("[AVISO] Venda registrada para cliente inexistente (código: " + V.getCodigoCliente() + "). Ignorando.");
+                System.out.println("[AVISO] Venda registrada para cliente inexistente (codigo: " + V.getCodigoCliente() + "). Ignorando.");
                 continue;
             }
 

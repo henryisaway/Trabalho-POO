@@ -20,16 +20,11 @@ public final class FornecedorHandler {
     public static void cadastraFornecedor() throws ArquivoException {
         String nome, endereco, telefone, cnpj, pessoaContato;
 
-        System.out.print("Digite o nome: ");
-        nome = sc.nextLine();
-        System.out.print("Digite o endereço: ");
-        endereco = sc.nextLine();
-        System.out.print("Digite o número de telefone: ");
-        telefone = sc.nextLine();
-        System.out.print("Digite o cnpj: ");
-        cnpj = sc.nextLine();
-        System.out.print("Digite a pessoa de contato: ");
-        pessoaContato = sc.nextLine();
+        nome = Leitor.lerString("Digite o nome: ");
+        endereco = Leitor.lerString("Digite o endereco: ");
+        telefone = Leitor.lerString("Digite o numero de telefone: ");
+        cnpj = Leitor.lerString("Digite o cnpj: ");
+        pessoaContato = Leitor.lerString("Digite a pessoa de contato: ");
 
         arquivoFornecedor.criaFornecedor(new Fornecedor(nome, endereco, telefone, cnpj, pessoaContato));
     }
@@ -78,12 +73,12 @@ public final class FornecedorHandler {
                 return;
             }
         }
-        System.out.println("Fornecedor não encontrado");
+        System.out.println("Fornecedor nao encontrado");
     }
 
     public static void edicaoFornecedor(Fornecedor fornecedor) throws ArquivoException {
         String entrada;
-        System.out.println("Caso não deseje editar o campo abaixo, apenas pressione enter");
+        System.out.println("Caso nao deseje editar o campo abaixo, apenas pressione enter");
         System.out.print("Nome ["+fornecedor.getNomeEmpresa()+"]: ");
         entrada = sc.nextLine();
         if(!entrada.trim().isEmpty()) fornecedor.setNomeEmpresa(entrada);

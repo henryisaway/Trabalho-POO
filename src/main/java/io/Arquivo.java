@@ -2,6 +2,7 @@ package io;
 
 import java.io.*;
 
+
 abstract class Arquivo {
     protected File arquivo;
     protected String conteudoArquivo;
@@ -24,7 +25,7 @@ abstract class Arquivo {
                 texto.append(linha).append("\n");//Adiciona a linha lida e uma quebra de linha
             }
         } catch (FileNotFoundException e) {
-            throw  new ArquivoException("Arquivo não encontrado!");
+            throw  new ArquivoException("Arquivo nao encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }
@@ -38,7 +39,7 @@ abstract class Arquivo {
             bw.flush();
             
         } catch (FileNotFoundException e) {
-            throw new ArquivoException("Arquivo não encontrado!");
+            throw new ArquivoException("Arquivo nao encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }
@@ -49,7 +50,7 @@ abstract class Arquivo {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo))) {
             bw.write(texto);
         } catch (FileNotFoundException e) {
-            throw  new ArquivoException("Arquivo não encontrado!");
+            throw  new ArquivoException("Arquivo nao encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }
@@ -81,7 +82,7 @@ abstract class Arquivo {
                 }
             }
         } catch (FileNotFoundException e) {
-            throw new ArquivoException("Arquivo não encontrado!");
+            throw new ArquivoException("Arquivo nao encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }
@@ -114,9 +115,32 @@ abstract class Arquivo {
 
             reescreveArquivo(texto.toString());
         } catch (FileNotFoundException e) {
-            throw  new ArquivoException("Arquivo não encontrado!");
+            throw  new ArquivoException("Arquivo nao encontrado!");
         } catch (IOException e) {
             throw new ArquivoException("Erro de I/O.");
         }
     }
+    
+    public boolean terminaComQuebra(File arquivo) throws IOException {
+    // Abre o arquivo para leitura usando RandomAccessFile
+    try (RandomAccessFile raf = new RandomAccessFile(arquivo, "r")) {
+
+        // Obtém o tamanho total do arquivo em bytes
+        long tamanho = raf.length();
+
+        // Se o arquivo estiver vazio, retorna false (não há quebra de linha)
+        if (tamanho == 0) return false;
+
+        // Move o ponteiro para o último byte do arquivo
+        raf.seek(tamanho - 1);
+
+        // Lê o último byte do arquivo
+        byte ultimoByte = raf.readByte();
+
+        // Retorna true se o último byte for uma quebra de linha ('\n'), senão false
+        return ultimoByte == '\n';
+    }
+}
+
+
 }

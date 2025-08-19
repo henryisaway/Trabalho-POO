@@ -1,6 +1,6 @@
 package io;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Produto;
@@ -48,9 +48,23 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv
-        String linhaProduto = ("\n"+codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaProduto,true);   
+        String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
+        //Adiciona a linha ao final do arquivo//Adiciona a linha ao final do arquivo
+        try {
+            File arquivo = new File("src/main/java/resources/cadastro_produtos.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaProduto = "\n" + linhaProduto;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaProduto, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
+        // Atualiza a lista de produtos  
         listaProdutos.add(new Produto(codigo, descricao, estoqueMin, qtProduto,valorCusto, percentualLucro));
     }
 
@@ -63,7 +77,6 @@ public class ArquivoProduto extends Arquivo{
         valorCusto = produto.getValorDeCusto();
 
         //Monta a linha em formato csv,  ja com \n
-        System.out.println("qt - "+qtProduto);
         String linhaProduto = (codigo+";"+descricao+";"+estoqueMin+";"+qtProduto+";"+valorCusto+";"+percentualLucro);
         super.editaItem(codigo, linhaProduto);
         

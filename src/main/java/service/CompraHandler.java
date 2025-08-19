@@ -4,13 +4,11 @@ import io.ArquivoException;
 import io.ArquivoCompra;
 import java.io.File;
 import java.util.List;
-import java.util.Scanner;
 import model.Compra;
 import model.Fornecedor;
 import java.time.LocalDate;
 
 public class CompraHandler {
-    private static final Scanner sc = new Scanner(System.in);
     private static final ArquivoCompra arquivoCompra = new ArquivoCompra(new File("src/main/java/resources/registro_compras.csv"));
     private static List<Compra> compras;
 
@@ -22,12 +20,9 @@ public class CompraHandler {
         int numeroNotaFiscal, codigoFornecedor;
         LocalDate dataCompra;
         
-        System.out.print("Digite o numero da nota fiscal: ");
-        numeroNotaFiscal = sc.nextInt();
-        sc.nextLine();
-        System.out.print("Digite o codigo do Fornecedor: ");
-        codigoFornecedor = sc.nextInt();
-        sc.nextLine();
+        numeroNotaFiscal = Leitor.lerInteiro("Digite o numero da nota fiscal: ");
+        
+        codigoFornecedor = Leitor.lerInteiro("Digite o codigo do Fornecedor: ");
         Fornecedor buscaFornecedor = FornecedorHandler.buscarFornecedor(codigoFornecedor);
         if(buscaFornecedor == null){
             System.out.println("Cadastre este fornecedor primeiro!");

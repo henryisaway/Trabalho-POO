@@ -27,17 +27,13 @@ public class VendaHandler {
         LocalDate dataVenda;
 
         dataVenda = LocalDate.now();
-        System.out.print("Digite o codigo do produto vendido: ");
-        codigoProduto = sc.nextInt();
-        sc.nextLine();
+        codigoProduto = Leitor.lerInteiro("Digite o codigo do produto vendido: ");
         Produto buscaProduto = ProdutoHandler.buscarProduto(codigoProduto);
         if(buscaProduto == null){
             System.out.println("Codigo de produto nao existente no estoque!");
             return;
         }
-        System.out.print("Digite a quantidade de produto: ");
-        quantidade = sc.nextInt();
-        sc.nextLine();
+        quantidade = Leitor.lerInteiro("Digite a quantidade de produto: ");
         quantidade = ProdutoHandler.vendeuProduto(codigoProduto, quantidade);
         if(quantidade == 0){
             System.out.println("Voltando ao menu principal...");

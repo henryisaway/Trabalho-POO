@@ -1,6 +1,6 @@
 package io;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import model.Venda;
@@ -83,16 +83,30 @@ public class ArquivoVenda extends Arquivo{
         //Monta a linha em formato csv
         String linhaVenda;
         if(codigoCliente == 0){ 
-            linhaVenda = ("\n ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
+            linhaVenda = (" ;"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
         }
-        else linhaVenda = ("\n"+codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
-        //Adiciona a linha ao final do arquivo
-        super.adicionaTextoArquivo(linhaVenda,true);
+        else linhaVenda = (codigoCliente+";"+dataVenda+";"+codigoProduto+";"+quantidade+";"+modoPagamento.getCodigo());
+        //Adiciona a linha ao final do arquivo//Adiciona a linha ao final do arquivo
+        try {
+            File arquivo = new File("src/main/java/resources/registro_vendas.csv");
+
+            // Verifica se precisa adicionar quebra de linha antes
+            if (!super.terminaComQuebra(arquivo)) {
+                linhaVenda = "\n" + linhaVenda;
+            }
+
+            // Adiciona a linha ao final do arquivo
+            super.adicionaTextoArquivo(linhaVenda, true);
+
+        } catch (IOException e) {
+            throw new ArquivoException("Erro ao verificar quebra de linha no arquivo", e);
+        }
+
     }
     
     public void reniciaVendasMes () throws ArquivoException {
 
-        String linhaVenda = ("Código do Cliente;Data de venda;Código do produto;Quantidade;Modo de pagamento");
+        String linhaVenda = ("Codigo do Cliente;Data de venda;Codigo do produto;Quantidade;Modo de pagamento");
         //Sobrescreve o arquivo...
         super.adicionaTextoArquivo(linhaVenda,false);
     }
