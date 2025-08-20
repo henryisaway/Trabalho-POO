@@ -70,7 +70,7 @@ public class App {
                     listagem();
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
         } while (opcao != 0);
@@ -139,7 +139,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
@@ -165,7 +165,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
             
@@ -195,7 +195,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
@@ -224,7 +224,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
@@ -274,7 +274,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
@@ -303,7 +303,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
@@ -332,7 +332,7 @@ public class App {
                     flag = false;
                     break;
                 default:
-                    System.out.println("Opção invalida! digite novamente");
+                    System.out.println("Opcao invalida! digite novamente");
                     break;
             }
 
