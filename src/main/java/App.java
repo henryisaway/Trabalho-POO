@@ -39,8 +39,7 @@ public class App {
         int opcao;
         do {
             menuPrincipal();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                     
                 case 0:
@@ -87,7 +86,6 @@ public class App {
         System.out.println("[6] - Remocao");
         System.out.println("[7] - Busca");
         System.out.println("[8] - Listagem");
-        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuGeral(){
@@ -95,21 +93,18 @@ public class App {
         System.out.println("[1] - Produto");
         System.out.println("[2] - Fornecedor");
         System.out.println("[3] - Cliente");
-        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuRegistroVendas(){
         System.out.println("[0] - Voltar ao Menu Principal");
         System.out.println("[1] - Listar Todas as Vendas");
         System.out.println("[2] - Registrar Nova Venda");
-        System.out.print("Digite uma opcao: ");
     }
 
     public static void menuControleContas(){
         System.out.println("[0] - Voltar ao Menu Principal");
         System.out.println("[1] - Visualizar Contas a Receber (Clientes)");
         System.out.println("[2] - Visualizar Contas a Pagar (Fornecedores)");
-        System.out.print("Digite uma opcao: ");
     }
 
     public static void gerarRelatorioMensal()throws ArquivoException{
@@ -131,8 +126,7 @@ public class App {
         boolean flag = true;
         do{
             menuControleContas();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 2:
                     CompraHandler.listarContasPagar();
@@ -158,8 +152,7 @@ public class App {
         boolean flag = true;
         do{
             menuRegistroVendas();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 2:
                     VendaHandler.cadastraVenda();
@@ -186,8 +179,7 @@ public class App {
         do{
            System.out.println("Selecione o que deseja cadastrar: ");
            menuGeral();
-           opcao = sc.nextInt();
-           sc.nextLine();
+           opcao = Leitor.lerInteiro("Digite uma opcao: ");
            switch(opcao){
                 case 3:
                     ClienteHandler.cadastraCliente();
@@ -216,8 +208,7 @@ public class App {
         do{
             System.out.println("Selecione o que deseja listar: ");
             menuGeral();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 3:
                     ClienteHandler.listarClientes();
@@ -246,8 +237,7 @@ public class App {
         do{
             System.out.println("Selecione o que deseja buscar: ");
             menuGeral();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 3:
                     System.out.print("Digite o id do cliente: ");
@@ -297,8 +287,7 @@ public class App {
         do{
             System.out.println("Selecione o que deseja remover: ");
             menuGeral();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 3:
                     ClienteHandler.removeCliente();
@@ -327,8 +316,7 @@ public class App {
         do{
             System.out.println("Selecione o que deseja editar: ");
             menuGeral();
-            opcao = sc.nextInt();
-            sc.nextLine();
+            opcao = Leitor.lerInteiro("Digite uma opcao: ");
             switch(opcao){
                 case 3:
                     ClienteHandler.editaCliente();
